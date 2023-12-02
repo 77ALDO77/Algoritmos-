@@ -53,6 +53,7 @@ public class InterGestionarArea extends javax.swing.JInternalFrame {
         txt_nombre = new javax.swing.JTextField();
         jButton_buscar = new javax.swing.JButton();
         txt_codBuscado = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
 
         setClosable(true);
         setIconifiable(true);
@@ -135,6 +136,9 @@ public class InterGestionarArea extends javax.swing.JInternalFrame {
 
         getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 330, 570, 130));
 
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMG/fondo-diseño.jpg"))); // NOI18N
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 590, 470));
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
@@ -198,6 +202,7 @@ public class InterGestionarArea extends javax.swing.JInternalFrame {
     private javax.swing.JButton jButton_eliminar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;

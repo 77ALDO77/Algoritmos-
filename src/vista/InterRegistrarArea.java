@@ -28,6 +28,7 @@ public class InterRegistrarArea extends javax.swing.JInternalFrame {
         jLabel2 = new javax.swing.JLabel();
         txt_nombre = new javax.swing.JTextField();
         jButton_Guardar = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(153, 153, 255));
         setClosable(true);
@@ -54,6 +55,9 @@ public class InterRegistrarArea extends javax.swing.JInternalFrame {
             }
         });
         getContentPane().add(jButton_Guardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 100, 90, 30));
+
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMG/fondo-diseño.jpg"))); // NOI18N
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 390, 170));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -91,6 +95,7 @@ public class InterRegistrarArea extends javax.swing.JInternalFrame {
     private javax.swing.JButton jButton_Guardar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JTextField txt_nombre;
     // End of variables declaration//GEN-END:variables
 

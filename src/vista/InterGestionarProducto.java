@@ -208,6 +208,8 @@ public class InterGestionarProducto extends javax.swing.JInternalFrame {
         jPanel3.add(txt_fecha_vencimiento, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 50, 170, -1));
 
         getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 330, 870, 120));
+
+        jLabel_wallpaper.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMG/fondo-diseño.jpg"))); // NOI18N
         getContentPane().add(jLabel_wallpaper, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -20, 900, 500));
 
         pack();

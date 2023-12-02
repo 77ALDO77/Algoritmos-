@@ -124,6 +124,7 @@ public class InterClasificacion extends javax.swing.JInternalFrame {
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 160, 350, 250));
 
         jLabel_wallpaper.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel_wallpaper.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMG/fondo-diseño.jpg"))); // NOI18N
         getContentPane().add(jLabel_wallpaper, new org.netbeans.lib.awtextra.AbsoluteConstraints(-10, -40, 590, 500));
 
         pack();

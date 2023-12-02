@@ -323,8 +323,8 @@ public class InterFacturarVenta extends javax.swing.JInternalFrame {
         jLabel11.setText("Empleado");
         getContentPane().add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 110, -1, -1));
 
-        jLabel_wallpaper.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Fondo menu.jpg"))); // NOI18N
-        getContentPane().add(jLabel_wallpaper, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -20, 810, 600));
+        jLabel_wallpaper.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMG/fondo-diseño.jpg"))); // NOI18N
+        getContentPane().add(jLabel_wallpaper, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -20, 810, 640));
 
         jComboBox_producto1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jComboBox_producto1.setForeground(new java.awt.Color(255, 255, 255));

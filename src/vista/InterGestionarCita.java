@@ -65,6 +65,7 @@ public class InterGestionarCita extends javax.swing.JInternalFrame {
         jLabel8 = new javax.swing.JLabel();
         jComboBox_sexo = new javax.swing.JComboBox<>();
         jDateChooser_fecha_nacimiento = new com.toedter.calendar.JDateChooser();
+        jLabel9 = new javax.swing.JLabel();
 
         setClosable(true);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -259,6 +260,9 @@ public class InterGestionarCita extends javax.swing.JInternalFrame {
         jPanel3.add(jDateChooser_fecha_nacimiento, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 50, 170, -1));
 
         getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 330, 870, 180));
+
+        jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMG/fondo-diseño.jpg"))); // NOI18N
+        getContentPane().add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 880, 520));
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton_actualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_actualizarActionPerformed
@@ -321,6 +325,7 @@ public class InterGestionarCita extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;

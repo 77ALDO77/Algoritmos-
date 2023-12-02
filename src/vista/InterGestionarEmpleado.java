@@ -198,6 +198,8 @@ public class InterGestionarEmpleado extends javax.swing.JInternalFrame {
         jPanel3.add(txt_dniBuscado, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 10, 300, -1));
 
         getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 330, 870, 130));
+
+        jLabel_wallpaper.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMG/fondo-diseño.jpg"))); // NOI18N
         getContentPane().add(jLabel_wallpaper, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -20, 900, 500));
 
         pack();

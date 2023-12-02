@@ -57,6 +57,7 @@ public class InterRegistroPago extends javax.swing.JInternalFrame {
         jButton_calcular_cambio = new javax.swing.JButton();
         jComboBox1 = new javax.swing.JComboBox<>();
         jLabel14 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
 
         setClosable(true);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -108,7 +109,7 @@ public class InterRegistroPago extends javax.swing.JInternalFrame {
         getContentPane().add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 110, 80, -1));
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
-        jLabel1.setText("Registro de Pagó");
+        jLabel1.setText("Registro de Pago");
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 0, -1, -1));
 
         txt_cliente_buscar.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
@@ -232,6 +233,9 @@ public class InterRegistroPago extends javax.swing.JInternalFrame {
         jLabel14.setText("Tipo de pago:");
         getContentPane().add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 80, 120, -1));
 
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMG/fondo-diseño.jpg"))); // NOI18N
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 780, 610));
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
@@ -278,6 +282,7 @@ public class InterRegistroPago extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;

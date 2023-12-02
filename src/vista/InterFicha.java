@@ -132,6 +132,7 @@ public class InterFicha extends javax.swing.JInternalFrame {
         getContentPane().add(jComboBox_paciente, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 140, 170, -1));
 
         jLabel_wallpaper.setBackground(new java.awt.Color(153, 153, 255));
+        jLabel_wallpaper.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMG/fondo-diseño.jpg"))); // NOI18N
         getContentPane().add(jLabel_wallpaper, new org.netbeans.lib.awtextra.AbsoluteConstraints(-10, -30, 410, 310));
 
         pack();

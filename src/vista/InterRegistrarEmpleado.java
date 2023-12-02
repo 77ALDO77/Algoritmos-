@@ -125,6 +125,7 @@ public class InterRegistrarEmpleado extends javax.swing.JInternalFrame {
         getContentPane().add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 200, 90, -1));
 
         jLabel_wallpaper.setBackground(new java.awt.Color(153, 153, 255));
+        jLabel_wallpaper.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMG/fondo-diseño.jpg"))); // NOI18N
         getContentPane().add(jLabel_wallpaper, new org.netbeans.lib.awtextra.AbsoluteConstraints(-10, -30, 410, 340));
 
         pack();

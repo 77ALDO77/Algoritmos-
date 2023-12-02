@@ -71,11 +71,11 @@ public class InterRegistrarCita extends javax.swing.JInternalFrame {
         jDateChooser_fecha_nacimiento = new com.toedter.calendar.JDateChooser();
         jDateChooser_fecha_cita1 = new com.toedter.calendar.JDateChooser();
         jComboBox_area = new javax.swing.JComboBox<>();
+        jLabel2 = new javax.swing.JLabel();
 
         setClosable(true);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel1.setBackground(new java.awt.Color(153, 153, 255));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel7.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
@@ -223,6 +223,9 @@ public class InterRegistrarCita extends javax.swing.JInternalFrame {
         });
         jPanel1.add(jComboBox_area, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 240, 170, -1));
 
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMG/fondo-diseño.jpg"))); // NOI18N
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 680, 430));
+
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 680, 430));
 
         pack();
@@ -284,6 +287,7 @@ public class InterRegistrarCita extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
