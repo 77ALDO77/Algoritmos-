@@ -38,4 +38,8 @@ public class Controlador_Cita {
 
         return cita;
     }
+    public boolean RegistrarCita (Cita objeto){
+        boolean respuesta = false;
+        return respuesta;
+    }
 }

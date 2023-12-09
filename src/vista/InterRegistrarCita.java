@@ -264,7 +264,17 @@ public class InterRegistrarCita extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jComboBox_sexoActionPerformed
 
     private void jButton_RegistrarCitaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_RegistrarCitaActionPerformed
-
+    Cita cita = new Cita();
+    Controlador_Cita ctlCita = new Controlador_Cita();
+    String servicio= "";
+    String doctor= "";
+    String area = "";
+    servicio = jComboBox_servicio.getSelectedItem().toString().trim();
+    doctor = jComboBox_Doctor.getSelectedItem().toString().trim();
+    area = jComboBox_area.getSelectedItem().toString().trim();
+    
+    
+    
     }//GEN-LAST:event_jButton_RegistrarCitaActionPerformed
 
     private void jComboBox_areaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox_areaActionPerformed
@@ -295,7 +305,7 @@ public class InterRegistrarCita extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel_celular;
     private javax.swing.JPanel jPanel1;
     public javax.swing.JTextField txt_apellido;
-    private javax.swing.JTextField txt_celular;
+    public javax.swing.JTextField txt_celular;
     public javax.swing.JTextField txt_cliente_buscar;
     public javax.swing.JTextField txt_dni;
     public javax.swing.JTextField txt_nombre;
