@@ -166,6 +166,11 @@ public class InterFacturarVenta extends javax.swing.JInternalFrame {
         jComboBox_cliente.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jComboBox_cliente.setForeground(new java.awt.Color(255, 255, 255));
         jComboBox_cliente.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione cliente:", "Item 2", "Item 3", "Item 4" }));
+        jComboBox_cliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox_clienteActionPerformed(evt);
+            }
+        });
         getContentPane().add(jComboBox_cliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 40, 170, -1));
 
         txt_cliente_buscar.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
@@ -290,6 +295,11 @@ public class InterFacturarVenta extends javax.swing.JInternalFrame {
         jComboBox_producto.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jComboBox_producto.setForeground(new java.awt.Color(255, 255, 255));
         jComboBox_producto.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione producto:", "Item 2", "Item 3", "Item 4" }));
+        jComboBox_producto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox_productoActionPerformed(evt);
+            }
+        });
         getContentPane().add(jComboBox_producto, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 80, 170, -1));
 
         jComboBox_empleado.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
@@ -523,6 +533,14 @@ public class InterFacturarVenta extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jComboBox_empleadoActionPerformed
 
+    private void jComboBox_productoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox_productoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBox_productoActionPerformed
+
+    private void jComboBox_clienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox_clienteActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBox_clienteActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton_RegistrarVenta;
@@ -749,7 +767,7 @@ public class InterFacturarVenta extends javax.swing.JInternalFrame {
             st = cn.createStatement();
             ResultSet rs = st.executeQuery(sql);
             while (rs.next()) {
-               codPaciente = rs.getInt("CodEmpleado");
+               codEmpleado = rs.getInt("CodEmpleado");
             }
 
         } catch (SQLException e) {

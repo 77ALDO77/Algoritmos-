@@ -31,6 +31,8 @@ public class Controlador_PDFdelaVenta {
     private String nombrePaciente;
     private String dniPaciente;
     private String celularPaciente;
+    private String nombreEmpleado;
+    private String especialidadEmpleado;
 
 
     private String fechaActual = "";
@@ -53,6 +55,24 @@ public class Controlador_PDFdelaVenta {
             cn.close();
         } catch (SQLException e) {
             System.out.println("Error al obtener datos del cliente: " + e);
+        }
+    }
+    
+    public void DatosEmpleado(int codEmpleado) {
+        Connection cn = Conexion.conectar();
+        String sql = "select * from Empleado where CodEmpleado = '" + codEmpleado + "'";
+        Statement st;
+        try {
+
+            st = cn.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            while (rs.next()) {
+                nombreEmpleado = rs.getString("Nombre") + " " + rs.getString("Apellido");
+                especialidadEmpleado = rs.getString("Especialidad");
+            }
+            cn.close();
+        } catch (SQLException e) {
+            System.out.println("Error al obtener datos del Empleado: " + e);
         }
     }
 
@@ -138,6 +158,27 @@ public class Controlador_PDFdelaVenta {
             tablaPaciente.addCell(celularPaciente);
             //agregar al documento
             doc.add(tablaPaciente);
+            
+            //DATOS DEL EMPLEADO
+            PdfPTable tablaEmpleado = new PdfPTable(3);
+            tablaEmpleado.setWidthPercentage(100);
+            tablaEmpleado.getDefaultCell().setBorder(0);//quitar bordes
+            //tamaño de las celdas
+            float[] ColumnaEmpleado = new float[]{25f, 45f, 30f, 40f};
+            tablaEmpleado.setWidths(ColumnaEmpleado);
+            tablaEmpleado.setHorizontalAlignment(Element.ALIGN_LEFT);
+            PdfPCell empleado1 = new PdfPCell(new Phrase("Nombres: ",negrita));
+            PdfPCell empleado2 = new PdfPCell(new Phrase("Especialidad: ",negrita));
+            //quitar bordes
+            empleado1.setBorder(0);
+            empleado2.setBorder(0);
+            //agg celda a la tabla
+            tablaEmpleado.addCell(empleado1);
+            tablaEmpleado.addCell(empleado2);
+            tablaEmpleado.addCell(nombreEmpleado);
+            tablaEmpleado.addCell(especialidadEmpleado);
+            //agregar al documento
+            doc.add(tablaEmpleado);
             
             //ESPACIO EN BLANCO
             Paragraph espacio = new Paragraph();
