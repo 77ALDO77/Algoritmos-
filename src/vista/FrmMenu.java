@@ -333,6 +333,11 @@ public class FrmMenu extends javax.swing.JFrame {
 
         jMenuItem_gestionar_compra.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jMenuItem_gestionar_compra.setText("Gestionar Compra");
+        jMenuItem_gestionar_compra.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem_gestionar_compraActionPerformed(evt);
+            }
+        });
         jMenu8.add(jMenuItem_gestionar_compra);
 
         jMenuBar1.add(jMenu8);
@@ -456,7 +461,9 @@ public class FrmMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem_registrar_areaActionPerformed
 
     private void jMenuItem_CompraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_CompraActionPerformed
-        // TODO add your handling code here:
+        InterFacturarVenta interFacturar = new InterFacturarVenta();
+        jDesktopPane_menu.add(interFacturar);
+        interFacturar.setVisible(true);
     }//GEN-LAST:event_jMenuItem_CompraActionPerformed
 
     private void jMenuItem_ficha_pacienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_ficha_pacienteActionPerformed
@@ -476,6 +483,10 @@ public class FrmMenu extends javax.swing.JFrame {
         jDesktopPane_menu.add(interGestionarProveedor);
         interGestionarProveedor.setVisible(true);
     }//GEN-LAST:event_jMenuItem_gestionar_proveedorActionPerformed
+
+    private void jMenuItem_gestionar_compraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_gestionar_compraActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem_gestionar_compraActionPerformed
 
     /**
      * @param args the command line arguments

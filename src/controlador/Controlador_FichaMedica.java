@@ -17,7 +17,7 @@ public class Controlador_FichaMedica {
             PreparedStatement consulta = cn.prepareStatement("insert into FichaMedica values(?,?,?,?,?,?,?)");
             consulta.setInt(1, 0);//cod
             consulta.setInt(2,objeto.getCodPaciente());
-            consulta.setString(3, objeto.getExamenes());
+            consulta.setBytes(3, objeto.getExamenes());
             consulta.setString(4, objeto.getAlergias());
             java.sql.Date fechaVisitaSQL = new java.sql.Date(objeto.getFecha_visita().getTime());
             consulta.setDate(5, fechaVisitaSQL);

@@ -9,7 +9,7 @@ public class FichaMedica {
     //Atributos
     private int codFicha;
     private int codPaciente;
-    private String examenes;
+    private byte[] examenes;
     private String alergias;
     private Date fecha_visita;
     private String diagnostico;
@@ -18,14 +18,14 @@ public class FichaMedica {
     public FichaMedica() {
         this.codFicha = 0;
         this.codPaciente = 0;
-        this.examenes = "";
+        this.examenes = new byte[0];
         this.alergias = "";
         this.fecha_visita = new Date();
         this.diagnostico = "";
         this.tratamiento = "";
     }
 
-    public FichaMedica(int codFicha, int codPaciente, String examenes, String alergias, Date fecha_visita, String diagnostico, String tratamiento) {
+    public FichaMedica(int codFicha, int codPaciente, byte[] examenes, String alergias, Date fecha_visita, String diagnostico, String tratamiento) {
         this.codFicha = codFicha;
         this.codPaciente = codPaciente;
         this.examenes = examenes;
@@ -34,8 +34,6 @@ public class FichaMedica {
         this.diagnostico = diagnostico;
         this.tratamiento = tratamiento;
     }
-    
-    
 
     public int getCodFicha() {
         return codFicha;
@@ -53,11 +51,11 @@ public class FichaMedica {
         this.codPaciente = codPaciente;
     }
 
-    public String getExamenes() {
+    public byte[] getExamenes() {
         return examenes;
     }
 
-    public void setExamenes(String examenes) {
+    public void setExamenes(byte[] examenes) {
         this.examenes = examenes;
     }
 
@@ -92,7 +90,15 @@ public class FichaMedica {
     public void setTratamiento(String tratamiento) {
         this.tratamiento = tratamiento;
     }
+
+    public void setRutaArchivoPDF(String filePath) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
     
+    
+    
+
     
     
     

@@ -1,25 +1,23 @@
 
 package modelo;
 
-import java.util.Date;
-
 public class Venta {
     
     private int codVenta;
     private int codPaciente;
     private int codEmpleado;
-    private Date fecha;
+    private String fecha;
     private double total;
 
     public Venta (){
         this.codVenta = 0;
         this.codPaciente =0;
         this.codEmpleado = 0;
-        this.fecha = new Date();
+        this.fecha = "";
         this.total = 0.0;
     }
 
-    public Venta(int codVenta, int codPaciente, int codEmpleado, Date fecha, double total) {
+    public Venta(int codVenta, int codPaciente, int codEmpleado, String fecha, double total) {
         this.codVenta = codVenta;
         this.codPaciente = codPaciente;
         this.codEmpleado = codEmpleado;
@@ -51,11 +49,11 @@ public class Venta {
         this.codEmpleado = codEmpleado;
     }
 
-    public Date getFecha() {
+    public String getFecha() {
         return fecha;
     }
 
-    public void setFecha(Date fecha) {
+    public void setFecha(String fecha) {
         this.fecha = fecha;
     }
 
@@ -66,9 +64,5 @@ public class Venta {
     public void setTotal(double total) {
         this.total = total;
     }
-    
-    
-
-    
     
 }

@@ -7,13 +7,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import modelo.*;
+import modelo.DetalleVenta;
+import modelo.Venta;
 
 public class Controlador_Venta {
     
-    //ultimo id de la cabecera
-    public static int codVentaRegistrada;
-    java.math.BigDecimal coDColVar;
+    public static int idCabeceraRegistrada;
+    java.math.BigDecimal iDColVar;
     /**
      * **************************************************
      * metodo para guardar la cabecera de venta
@@ -25,27 +25,24 @@ public class Controlador_Venta {
         try {
             PreparedStatement consulta = cn.prepareStatement("insert into Venta values(?,?,?,?,?)",
                     Statement.RETURN_GENERATED_KEYS);
-            consulta.setInt(1, 0);//cod
+            consulta.setInt(1, 0);//id
             consulta.setInt(2, objeto.getCodPaciente());
             consulta.setInt(3, objeto.getCodEmpleado());
-            java.sql.Date fechaSQL = new java.sql.Date(objeto.getFecha().getTime());
-            consulta.setDate(4, fechaSQL);
+            consulta.setString(4,objeto.getFecha());
             consulta.setDouble(5, objeto.getTotal());
-
-            
             if (consulta.executeUpdate() > 0) {
                 respuesta = true;
             }
             
             ResultSet rs = consulta.getGeneratedKeys();
             while(rs.next()){
-                coDColVar = rs.getBigDecimal(1);
-                codVentaRegistrada = coDColVar.intValue();
+                iDColVar = rs.getBigDecimal(1);
+                idCabeceraRegistrada = iDColVar.intValue();
             }
             
             cn.close();
         } catch (SQLException e) {
-            System.out.println("Error al guardar venta: " + e);
+            System.out.println("Error al guardar cabecera de venta: " + e);
         }
         return respuesta;
     }
@@ -59,20 +56,22 @@ public class Controlador_Venta {
         boolean respuesta = false;
         Connection cn = Conexion.conectar();
         try {
-            PreparedStatement consulta = cn.prepareStatement("insert into DetalleVenta values(?,?,?,?,?,?)");
-            consulta.setInt(1, 0);//cod
-            consulta.setInt(2, objeto.getCodProducto());           
-            consulta.setInt(3, codVentaRegistrada);
+            PreparedStatement consulta = cn.prepareStatement("insert into DetalleVenta values(?,?,?,?,?,?,?)");
+            consulta.setInt(1, 0);//id
+            consulta.setInt(3, objeto.getCodProducto());
+            consulta.setInt(2, idCabeceraRegistrada);
             consulta.setInt(4, objeto.getCantidad());
-            consulta.setString(5, objeto.getTipoPago());
+            consulta.setDouble(5, objeto.getPrecioUnitario());
             consulta.setDouble(6, objeto.getSubTotal());
+            consulta.setDouble(7, objeto.getTotalPagar());
+
             
             if (consulta.executeUpdate() > 0) {
                 respuesta = true;
             }
             cn.close();
         } catch (SQLException e) {
-            System.out.println("Error al guardar Detalle de Venta: " + e);
+            System.out.println("Error al guardar detalle de venta: " + e);
         }
         return respuesta;
     }
@@ -89,8 +88,8 @@ public class Controlador_Venta {
         try {
 
             PreparedStatement consulta = cn.prepareStatement(
-                    "update Venta set codPaciente = ? "
-                            + "where codVenta ='" + codVenta + "'");
+                    "update Venta set CodPaciente = ? "
+                            + "where CodVenta ='" + codVenta + "'");
             consulta.setInt(1, objeto.getCodPaciente());
            
             if (consulta.executeUpdate() > 0) {
@@ -98,7 +97,7 @@ public class Controlador_Venta {
             }
             cn.close();
         } catch (SQLException e) {
-            System.out.println("Error al actualizar Venta: " + e);
+            System.out.println("Error al actualizar cabecera de venta: " + e);
         }
         return respuesta;
     }

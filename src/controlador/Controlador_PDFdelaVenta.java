@@ -31,7 +31,7 @@ public class Controlador_PDFdelaVenta {
     private String nombrePaciente;
     private String dniPaciente;
     private String celularPaciente;
-    private String direccionPaciente;
+
 
     private String fechaActual = "";
     private String nombreArchivoPDFVenta = "";
@@ -39,17 +39,16 @@ public class Controlador_PDFdelaVenta {
     //metodo para obtener datos del cliente
     public void DatosPaciente(int codPaciente) {
         Connection cn = Conexion.conectar();
-        String sql = "select * from Paciente where codPaciente = '" + codPaciente + "'";
+        String sql = "select * from Paciente where CodPaciente = '" + codPaciente + "'";
         Statement st;
         try {
 
             st = cn.createStatement();
             ResultSet rs = st.executeQuery(sql);
             while (rs.next()) {
-                nombrePaciente = rs.getString("nombre") + " " + rs.getString("apellido");
-                dniPaciente = rs.getString("dni");
-                celularPaciente = rs.getString("celular");
-                direccionPaciente = rs.getString("direccion");
+                nombrePaciente = rs.getString("Nombres") + " " + rs.getString("Apellidos");
+                dniPaciente = rs.getString("DNI");
+                celularPaciente = rs.getString("Celular");
             }
             cn.close();
         } catch (SQLException e) {
@@ -123,24 +122,20 @@ public class Controlador_PDFdelaVenta {
             float[] ColumnaPaciente = new float[]{25f, 45f, 30f, 40f};
             tablaPaciente.setWidths(ColumnaPaciente);
             tablaPaciente.setHorizontalAlignment(Element.ALIGN_LEFT);
-            PdfPCell paciente1 = new PdfPCell(new Phrase("Cedula/RUC: ", negrita));
-            PdfPCell paciente2 = new PdfPCell(new Phrase("Nombre: ", negrita));
-            PdfPCell paciente3 = new PdfPCell(new Phrase("Telefono: ", negrita));
-            PdfPCell paciente4 = new PdfPCell(new Phrase("Direccion: ", negrita));
+            PdfPCell paciente1 = new PdfPCell(new Phrase("DNI: ", negrita));
+            PdfPCell paciente2 = new PdfPCell(new Phrase("Nombres: ", negrita));
+            PdfPCell paciente3 = new PdfPCell(new Phrase("Celular: ", negrita));
             //quitar bordes 
             paciente1.setBorder(0);
             paciente2.setBorder(0);
             paciente3.setBorder(0);
-            paciente4.setBorder(0);
             //agg celda a la tabla
             tablaPaciente.addCell(paciente1);
             tablaPaciente.addCell(paciente2);
             tablaPaciente.addCell(paciente3);
-            tablaPaciente.addCell(paciente4);
             tablaPaciente.addCell(dniPaciente);
             tablaPaciente.addCell(nombrePaciente);
             tablaPaciente.addCell(celularPaciente);
-            tablaPaciente.addCell(direccionPaciente);
             //agregar al documento
             doc.add(tablaPaciente);
             
@@ -179,11 +174,11 @@ public class Controlador_PDFdelaVenta {
             tablaProducto.addCell(producto3);
             tablaProducto.addCell(producto4);
             
-            for(int i = 0; i < InterFacturarVenta.jTable_productos.getRowCount(); i++){
-                String producto = InterFacturarVenta.jTable_productos.getValueAt(i, 1).toString();
-                String cantidad = InterFacturarVenta.jTable_productos.getValueAt(i, 2).toString();
-                String precio = InterFacturarVenta.jTable_productos.getValueAt(i, 3).toString();
-                String total = InterFacturarVenta.jTable_productos.getValueAt(i, 7).toString();
+            for(int i = 0; i < InterFacturarVenta.jTable_Venta.getRowCount(); i++){
+                String producto = InterFacturarVenta.jTable_Venta.getValueAt(i, 1).toString();
+                String cantidad = InterFacturarVenta.jTable_Venta.getValueAt(i, 2).toString();
+                String precio = InterFacturarVenta.jTable_Venta.getValueAt(i, 3).toString();
+                String total = InterFacturarVenta.jTable_Venta.getValueAt(i, 7).toString();
                 
                 tablaProducto.addCell(cantidad);
                 tablaProducto.addCell(producto);

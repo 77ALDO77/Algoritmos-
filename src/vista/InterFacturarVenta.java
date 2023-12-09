@@ -1,6 +1,8 @@
 package vista;
 
 import conexion.Conexion;
+import controlador.Controlador_PDFdelaVenta;
+import controlador.Controlador_Venta;
 import java.awt.Dimension;
 import static java.awt.image.ImageObserver.WIDTH;
 import java.sql.Connection;
@@ -26,13 +28,13 @@ public class InterFacturarVenta extends javax.swing.JInternalFrame {
     ArrayList<DetalleVenta> listaProductos = new ArrayList<>();
     private DetalleVenta producto;
 
-    private int codCliente = 0;//cod del cliente sleccionado
-
-    private int idProducto = 0;
+    private int codPaciente = 0;//cod del cliente sleccionado
+    private int codEmpleado = 0;
+    private int codProducto = 0;
     private String nombre = "";
     private int cantidadProductoBBDD = 0;
     private double precioUnitario = 0.0;
-    private int porcentajeIgv = 0;
+
 
     private int cantidad = 0;//cantidad de productos a comprar
     private double subtotal = 0.0;//cantidad por precio
@@ -43,9 +45,9 @@ public class InterFacturarVenta extends javax.swing.JInternalFrame {
     private double subtotalGeneral = 0.0;
 //    private double descuentoGeneral = 0.0;
     private double totalPagarGeneral = 0.0;
+    //cod del detalle de venta
     //fin de variables de calculos globales
-
-    private int auxCodDetalle = 1;//cod del detalle de venta
+    private int auxCodDetalle=1;
 
     public InterFacturarVenta() {
         initComponents();
@@ -53,7 +55,7 @@ public class InterFacturarVenta extends javax.swing.JInternalFrame {
         this.setTitle("Facturacion");
 
         //Cargar lo Clientes en la vista - cargar productos
-        this.CargarComboClientes();
+        this.CargarComboPacientes();
         this.CargarComboEmpleado();
         this.CargarComboProductos();
         
@@ -64,8 +66,6 @@ public class InterFacturarVenta extends javax.swing.JInternalFrame {
         jButton_calcular_cambio.setEnabled(false);
 
         txt_subtotal.setText("0.0");
-        txt_igv.setText("0.0");
-        txt_descuento.setText("0.0");
         txt_total_pagar.setText("0.0");
 
         //insertar imagen en nuestro JLabel
@@ -84,12 +84,10 @@ public class InterFacturarVenta extends javax.swing.JInternalFrame {
         modeloDatosProductos.addColumn("Cantidad");
         modeloDatosProductos.addColumn("P. Unitario");
         modeloDatosProductos.addColumn("SubTotal");
-        modeloDatosProductos.addColumn("Descuento");
-        modeloDatosProductos.addColumn("IGV");
         modeloDatosProductos.addColumn("Total Pagar");
         modeloDatosProductos.addColumn("Accion");
         //agregar los datos del modelo a la tabla
-        this.jTable_productos.setModel(modeloDatosProductos);
+        this.jTable_Venta.setModel(modeloDatosProductos);
     }
 
     //metodo para presentar la informacion de la tavla DetalleVenta
@@ -101,13 +99,11 @@ public class InterFacturarVenta extends javax.swing.JInternalFrame {
             this.modeloDatosProductos.setValueAt(listaProductos.get(i).getCantidad(), i, 2);
             this.modeloDatosProductos.setValueAt(listaProductos.get(i).getPrecioUnitario(), i, 3);
             this.modeloDatosProductos.setValueAt(listaProductos.get(i).getSubTotal(), i, 4);
-            this.modeloDatosProductos.setValueAt(listaProductos.get(i).getDescuento(), i, 5);
-            this.modeloDatosProductos.setValueAt(listaProductos.get(i).getIgv(), i, 6);
-            this.modeloDatosProductos.setValueAt(listaProductos.get(i).getTotalPagar(), i, 7);
-            this.modeloDatosProductos.setValueAt("Eliminar", i, 8);//aqui luego poner un boton de eliminar
+            this.modeloDatosProductos.setValueAt(listaProductos.get(i).getTotalPagar(), i, 5);
+            this.modeloDatosProductos.setValueAt("Eliminar", i, 6);//aqui luego poner un boton de eliminar
         }
         //añadir al Jtable
-        jTable_productos.setModel(modeloDatosProductos);
+        jTable_Venta.setModel(modeloDatosProductos);
     }
 
     /**
@@ -122,37 +118,31 @@ public class InterFacturarVenta extends javax.swing.JInternalFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
         jComboBox_cliente = new javax.swing.JComboBox<>();
-        jComboBox_TipoPago = new javax.swing.JComboBox<>();
         txt_cliente_buscar = new javax.swing.JTextField();
         txt_cantidad = new javax.swing.JTextField();
         jButton_busca_cliente = new javax.swing.JButton();
         jButton_añadir_producto = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable_productos = new javax.swing.JTable();
+        jTable_Venta = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         txt_subtotal = new javax.swing.JTextField();
-        txt_descuento = new javax.swing.JTextField();
-        txt_igv = new javax.swing.JTextField();
         txt_total_pagar = new javax.swing.JTextField();
         txt_efectivo = new javax.swing.JTextField();
         txt_cambio = new javax.swing.JTextField();
         jButton_calcular_cambio = new javax.swing.JButton();
         jButton_RegistrarVenta = new javax.swing.JButton();
         jLabel11 = new javax.swing.JLabel();
-        jLabel_wallpaper = new javax.swing.JLabel();
-        jComboBox_producto1 = new javax.swing.JComboBox<>();
-        jComboBox_empleado1 = new javax.swing.JComboBox<>();
+        jComboBox_producto = new javax.swing.JComboBox<>();
+        jComboBox_empleado = new javax.swing.JComboBox<>();
         jLabel12 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
+        jLabel_wallpaper = new javax.swing.JLabel();
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
@@ -173,21 +163,10 @@ public class InterFacturarVenta extends javax.swing.JInternalFrame {
         jLabel2.setText("Cliente:");
         getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 80, -1));
 
-        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel4.setText("Tipo de Pago:");
-        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 110, 80, -1));
-
         jComboBox_cliente.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jComboBox_cliente.setForeground(new java.awt.Color(255, 255, 255));
         jComboBox_cliente.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione cliente:", "Item 2", "Item 3", "Item 4" }));
         getContentPane().add(jComboBox_cliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 40, 170, -1));
-
-        jComboBox_TipoPago.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jComboBox_TipoPago.setForeground(new java.awt.Color(255, 255, 255));
-        jComboBox_TipoPago.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione producto:", "Item 2", "Item 3", "Item 4" }));
-        getContentPane().add(jComboBox_TipoPago, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 110, 170, -1));
 
         txt_cliente_buscar.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         getContentPane().add(txt_cliente_buscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 40, 150, -1));
@@ -217,7 +196,7 @@ public class InterFacturarVenta extends javax.swing.JInternalFrame {
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jTable_productos.setModel(new javax.swing.table.DefaultTableModel(
+        jTable_Venta.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -228,12 +207,12 @@ public class InterFacturarVenta extends javax.swing.JInternalFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jTable_productos.addMouseListener(new java.awt.event.MouseAdapter() {
+        jTable_Venta.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jTable_productosMouseClicked(evt);
+                jTable_VentaMouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(jTable_productos);
+        jScrollPane1.setViewportView(jTable_Venta);
 
         jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 740, 190));
 
@@ -248,25 +227,17 @@ public class InterFacturarVenta extends javax.swing.JInternalFrame {
         jLabel5.setText("Subtotal:");
         jPanel2.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, -1, -1));
 
-        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel6.setText("Descuento:");
-        jPanel2.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, -1, -1));
-
-        jLabel7.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel7.setText("IGV:");
-        jPanel2.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, -1, -1));
-
         jLabel8.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel8.setText("Total a pagar:");
-        jPanel2.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 110, -1, -1));
+        jPanel2.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, -1, -1));
 
         jLabel9.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel9.setText("Efectivo:");
-        jPanel2.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 150, -1, -1));
+        jPanel2.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 110, -1, -1));
 
         jLabel10.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel10.setText("Cambio:");
-        jPanel2.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 180, -1, -1));
+        jPanel2.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 140, -1, -1));
 
         txt_subtotal.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         txt_subtotal.addActionListener(new java.awt.event.ActionListener() {
@@ -276,20 +247,14 @@ public class InterFacturarVenta extends javax.swing.JInternalFrame {
         });
         jPanel2.add(txt_subtotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 20, 120, -1));
 
-        txt_descuento.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jPanel2.add(txt_descuento, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 50, 120, -1));
-
-        txt_igv.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jPanel2.add(txt_igv, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 80, 120, -1));
-
         txt_total_pagar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jPanel2.add(txt_total_pagar, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 110, 120, -1));
+        jPanel2.add(txt_total_pagar, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 60, 120, -1));
 
         txt_efectivo.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jPanel2.add(txt_efectivo, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 150, 120, -1));
+        jPanel2.add(txt_efectivo, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 100, 120, -1));
 
         txt_cambio.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jPanel2.add(txt_cambio, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 180, 120, -1));
+        jPanel2.add(txt_cambio, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 140, 120, -1));
 
         jButton_calcular_cambio.setBackground(new java.awt.Color(51, 255, 255));
         jButton_calcular_cambio.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
@@ -300,14 +265,13 @@ public class InterFacturarVenta extends javax.swing.JInternalFrame {
                 jButton_calcular_cambioActionPerformed(evt);
             }
         });
-        jPanel2.add(jButton_calcular_cambio, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 150, 130, 50));
+        jPanel2.add(jButton_calcular_cambio, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 80, 130, 50));
 
-        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 390, 380, 210));
+        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 390, 380, 190));
 
         jButton_RegistrarVenta.setBackground(new java.awt.Color(51, 255, 255));
         jButton_RegistrarVenta.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jButton_RegistrarVenta.setForeground(new java.awt.Color(255, 255, 255));
-        jButton_RegistrarVenta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/impresora.png"))); // NOI18N
         jButton_RegistrarVenta.setText("Registrar Venta");
         jButton_RegistrarVenta.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton_RegistrarVenta.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -323,18 +287,20 @@ public class InterFacturarVenta extends javax.swing.JInternalFrame {
         jLabel11.setText("Empleado");
         getContentPane().add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 110, -1, -1));
 
-        jLabel_wallpaper.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMG/fondo-diseño.jpg"))); // NOI18N
-        getContentPane().add(jLabel_wallpaper, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -20, 810, 640));
+        jComboBox_producto.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jComboBox_producto.setForeground(new java.awt.Color(255, 255, 255));
+        jComboBox_producto.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione producto:", "Item 2", "Item 3", "Item 4" }));
+        getContentPane().add(jComboBox_producto, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 80, 170, -1));
 
-        jComboBox_producto1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jComboBox_producto1.setForeground(new java.awt.Color(255, 255, 255));
-        jComboBox_producto1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione producto:", "Item 2", "Item 3", "Item 4" }));
-        getContentPane().add(jComboBox_producto1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 80, 170, -1));
-
-        jComboBox_empleado1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jComboBox_empleado1.setForeground(new java.awt.Color(255, 255, 255));
-        jComboBox_empleado1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione producto:", "Item 2", "Item 3", "Item 4" }));
-        getContentPane().add(jComboBox_empleado1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 110, 170, -1));
+        jComboBox_empleado.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jComboBox_empleado.setForeground(new java.awt.Color(255, 255, 255));
+        jComboBox_empleado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione producto:", "Item 2", "Item 3", "Item 4" }));
+        jComboBox_empleado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox_empleadoActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jComboBox_empleado, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 110, 170, -1));
 
         jLabel12.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel12.setForeground(new java.awt.Color(255, 255, 255));
@@ -347,23 +313,26 @@ public class InterFacturarVenta extends javax.swing.JInternalFrame {
         jLabel13.setText("Cantidad:");
         getContentPane().add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 80, 80, -1));
 
+        jLabel_wallpaper.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMG/fondo-diseño.jpg"))); // NOI18N
+        getContentPane().add(jLabel_wallpaper, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -20, 810, 600));
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton_busca_clienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_busca_clienteActionPerformed
         String clienteBuscar = txt_cliente_buscar.getText().trim();
         Connection cn = Conexion.conectar();
-        String sql = "select nombre, apellido from tb_cliente where cedula = '" + clienteBuscar + "'";
+        String sql = "select Nombres, Apellidos from Paciente where DNI = '" + clienteBuscar + "'";
         Statement st;
         try {
             st = cn.createStatement();
             ResultSet rs = st.executeQuery(sql);
 
             if (rs.next()) {
-                jComboBox_cliente.setSelectedItem(rs.getString("nombre") + " " + rs.getString("apellido"));
+                jComboBox_cliente.setSelectedItem(rs.getString("Nombres") + " " + rs.getString("Apellidos"));
             } else {
                 jComboBox_cliente.setSelectedItem("Seleccione cliente:");
-                JOptionPane.showMessageDialog(null, "¡Cedula de cliente incorrecta o no encontrada!");
+                JOptionPane.showMessageDialog(null, "¡DNI de cliente incorrecta o no encontrada!");
             }
             txt_cliente_buscar.setText("");
             cn.close();
@@ -374,7 +343,7 @@ public class InterFacturarVenta extends javax.swing.JInternalFrame {
 
     private void jButton_añadir_productoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_añadir_productoActionPerformed
 
-        String combo = this.jComboBox_TipoPago.getSelectedItem().toString();
+        String combo = this.jComboBox_producto.getSelectedItem().toString();
         //validar que seleccione un producto
         if (combo.equalsIgnoreCase("Seleccione producto:")) {
             JOptionPane.showMessageDialog(null, "Seleccione un producto");
@@ -393,31 +362,26 @@ public class InterFacturarVenta extends javax.swing.JInternalFrame {
                         if (cantidad <= cantidadProductoBBDD) {
 
                             subtotal = precioUnitario * cantidad;
-                            totalPagar = subtotal + igv + descuento;
+                            totalPagar = subtotal;
 
                             //redondear decimales
                             subtotal = (double) Math.round(subtotal * 100) / 100;
-                            igv = (double) Math.round(igv * 100) / 100;
-                            descuento = (double) Math.round(descuento * 100) / 100;
                             totalPagar = (double) Math.round(totalPagar * 100) / 100;
 
                             //se crea un nuevo producto
-                            producto = new DetalleVenta(auxIdDetalle,//idDetalleVenta
-                                    1, //idCabecera
-                                    idProducto,
+                            producto = new DetalleVenta(auxCodDetalle, 
+                                    1,//idCabecera
+                                    codProducto,
                                     nombre,
                                     Integer.parseInt(txt_cantidad.getText()),
                                     precioUnitario,
                                     subtotal,
-                                    descuento,
-                                    igv,
-                                    totalPagar,
-                                    1//estado
+                                    totalPagar
                             );
                             //añadir a la lista
                             listaProductos.add(producto);
                             JOptionPane.showMessageDialog(null, "Producto Agregado");
-                            auxIdDetalle++;
+                            auxCodDetalle++;
                             txt_cantidad.setText("");//limpiar el campo
                             //volver a cargar combo productos
                             this.CargarComboProductos();
@@ -467,8 +431,8 @@ public class InterFacturarVenta extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_jButton_calcular_cambioActionPerformed
     int idArrayList = 0;
-    private void jTable_productosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable_productosMouseClicked
-        int fila_point = jTable_productos.rowAtPoint(evt.getPoint());
+    private void jTable_VentaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable_VentaMouseClicked
+        int fila_point = jTable_Venta.rowAtPoint(evt.getPoint());
         int columna_point = 0;
         if (fila_point > -1) {
             idArrayList = (int) modeloDatosProductos.getValueAt(fila_point, columna_point);
@@ -486,65 +450,52 @@ public class InterFacturarVenta extends javax.swing.JInternalFrame {
             default://sea que presione cancel (2) o close (-1)
                 break;
         }
-    }//GEN-LAST:event_jTable_productosMouseClicked
+    }//GEN-LAST:event_jTable_VentaMouseClicked
 
     private void jButton_RegistrarVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_RegistrarVentaActionPerformed
 
-        CabeceraVenta cabeceraVenta = new CabeceraVenta();
+        Venta venta = new Venta();
         DetalleVenta detalleVenta = new DetalleVenta();
-        Ctrl_RegistrarVenta controlVenta = new Ctrl_RegistrarVenta();
-
+        Controlador_Venta controlVenta = new Controlador_Venta();
         String fechaActual = "";
         Date date = new Date();
-        fechaActual = new SimpleDateFormat("yyyy/MM/dd").format(date);
-
-        if (!jComboBox_cliente.getSelectedItem().equals("Seleccione cliente:")) {
+        fechaActual = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(date);
+        if (!jComboBox_cliente.getSelectedItem().equals("Seleccione cliente:") && !jComboBox_empleado.getSelectedItem().equals("Seleccione empleado:")) {
             if (listaProductos.size() > 0) {
-
                 //metodo para obtener el id del cliente
-                this.ObtenerIdCliente();
+                this.ObtenerCodPaciente();
+                this.ObtenerCodEmpleado();
                 //registrar cabecera
-                cabeceraVenta.setIdCabeceraventa(0);
-                cabeceraVenta.setIdCliente(idCliente);
-                cabeceraVenta.setValorPagar(Double.parseDouble(txt_total_pagar.getText()));
-                cabeceraVenta.setFechaVenta(fechaActual);
-                cabeceraVenta.setEstado(1);
-
-                if (controlVenta.guardar(cabeceraVenta)) {
+                venta.setCodVenta(0);
+                venta.setCodPaciente(codPaciente);
+                venta.setCodEmpleado(codEmpleado);
+                venta.setTotal(Double.parseDouble(txt_total_pagar.getText()));
+                venta.setFecha(fechaActual);
+                if (controlVenta.guardar(venta)) {
                     JOptionPane.showMessageDialog(null, "¡Venta Registrada!");
-                    
                     //Generar la factura de venta
-                    VentaPDF pdf = new VentaPDF();
-                    pdf.DatosCliente(idCliente);
+                    Controlador_PDFdelaVenta pdf = new Controlador_PDFdelaVenta();
+                    pdf.DatosPaciente(codPaciente);
                     pdf.generarFacturaPDF();
-
                     //guardar detalle
                     for (DetalleVenta elemento : listaProductos) {
-                        detalleVenta.setIdDetalleVenta(0);
-                        detalleVenta.setIdCabeceraVenta(0);
-                        detalleVenta.setIdProducto(elemento.getIdProducto());
+                        detalleVenta.setCodDetalleVenta(0);
+                        detalleVenta.setCodVenta(0);
+                        detalleVenta.setCodProducto(elemento.getCodProducto());
                         detalleVenta.setCantidad(elemento.getCantidad());
                         detalleVenta.setPrecioUnitario(elemento.getPrecioUnitario());
                         detalleVenta.setSubTotal(elemento.getSubTotal());
-                        detalleVenta.setDescuento(elemento.getDescuento());
-                        detalleVenta.setIgv(elemento.getIgv());
                         detalleVenta.setTotalPagar(elemento.getTotalPagar());
-                        detalleVenta.setEstado(1);
-
                         if (controlVenta.guardarDetalle(detalleVenta)) {
                             //System.out.println("Detalle de Venta Registrado");
-
                             txt_subtotal.setText("0.0");
-                            txt_igv.setText("0.0");
-                            txt_descuento.setText("0.0");
                             txt_total_pagar.setText("0.0");
                             txt_efectivo.setText("");
                             txt_cambio.setText("0.0");
-                            auxIdDetalle = 1;
-
-                            this.CargarComboClientes();
-                            this.RestarStockProductos(elemento.getIdProducto(), elemento.getCantidad());
-
+                            auxCodDetalle = 1;
+                            this.CargarComboPacientes();
+                            this.CargarComboEmpleado();
+                            this.RestarStockProductos(elemento.getCodProducto(), elemento.getCantidad());
                         } else {
                             JOptionPane.showMessageDialog(null, "¡Error al guardar detalle de venta!");
                         }
@@ -552,15 +503,14 @@ public class InterFacturarVenta extends javax.swing.JInternalFrame {
                     //vaciamos la lista
                     listaProductos.clear();
                     listaTablaProductos();
-
                 } else {
-                    JOptionPane.showMessageDialog(null, "¡Error al guardar cabecera de venta!");
+                    JOptionPane.showMessageDialog(null, "¡Error al guardar Venta!");
                 }
             } else {
                 JOptionPane.showMessageDialog(null, "¡Seleccione un producto!");
             }
         } else {
-            JOptionPane.showMessageDialog(null, "¡Seleccione un cliente!");
+            JOptionPane.showMessageDialog(null, "¡Seleccione un cliente y un empleado!");
         }
 
     }//GEN-LAST:event_jButton_RegistrarVentaActionPerformed
@@ -569,16 +519,19 @@ public class InterFacturarVenta extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txt_subtotalActionPerformed
 
+    private void jComboBox_empleadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox_empleadoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBox_empleadoActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton_RegistrarVenta;
     private javax.swing.JButton jButton_añadir_producto;
     private javax.swing.JButton jButton_busca_cliente;
     private javax.swing.JButton jButton_calcular_cambio;
-    private javax.swing.JComboBox<String> jComboBox_TipoPago;
     private javax.swing.JComboBox<String> jComboBox_cliente;
-    private javax.swing.JComboBox<String> jComboBox_empleado1;
-    private javax.swing.JComboBox<String> jComboBox_producto1;
+    private javax.swing.JComboBox<String> jComboBox_empleado;
+    private javax.swing.JComboBox<String> jComboBox_producto;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -586,23 +539,18 @@ public class InterFacturarVenta extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JLabel jLabel_wallpaper;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     public static javax.swing.JScrollPane jScrollPane1;
-    public static javax.swing.JTable jTable_productos;
+    public static javax.swing.JTable jTable_Venta;
     private javax.swing.JTextField txt_cambio;
     private javax.swing.JTextField txt_cantidad;
     private javax.swing.JTextField txt_cliente_buscar;
-    private javax.swing.JTextField txt_descuento;
     private javax.swing.JTextField txt_efectivo;
-    private javax.swing.JTextField txt_igv;
     private javax.swing.JTextField txt_subtotal;
     public static javax.swing.JTextField txt_total_pagar;
     // End of variables declaration//GEN-END:variables
@@ -611,9 +559,9 @@ public class InterFacturarVenta extends javax.swing.JInternalFrame {
     /*
     Metodo para cargar los clientes en el jComboBox
      */
-    private void CargarComboClientes() {
+    private void CargarComboPacientes() {
         Connection cn = Conexion.conectar();
-        String sql = "select * from tb_cliente";
+        String sql = "select * from Paciente";
         Statement st;
         try {
             st = cn.createStatement();
@@ -621,7 +569,7 @@ public class InterFacturarVenta extends javax.swing.JInternalFrame {
             jComboBox_cliente.removeAllItems();
             jComboBox_cliente.addItem("Seleccione cliente:");
             while (rs.next()) {
-                jComboBox_cliente.addItem(rs.getString("nombre") + " " + rs.getString("apellido"));
+                jComboBox_cliente.addItem(rs.getString("Nombres") + " " + rs.getString("Apellidos"));
             }
             cn.close();
         } catch (SQLException e) {
@@ -634,15 +582,15 @@ public class InterFacturarVenta extends javax.swing.JInternalFrame {
      */
     private void CargarComboProductos() {
         Connection cn = Conexion.conectar();
-        String sql = "select * from tb_producto";
+        String sql = "select * from Producto";
         Statement st;
         try {
             st = cn.createStatement();
             ResultSet rs = st.executeQuery(sql);
-            jComboBox_TipoPago.removeAllItems();
-            jComboBox_TipoPago.addItem("Seleccione producto:");
+            jComboBox_producto.removeAllItems();
+            jComboBox_producto.addItem("Seleccione producto:");
             while (rs.next()) {
-                jComboBox_TipoPago.addItem(rs.getString("nombre"));
+                jComboBox_producto.addItem(rs.getString("Nombre"));
             }
             cn.close();
         } catch (SQLException e) {
@@ -679,18 +627,16 @@ public class InterFacturarVenta extends javax.swing.JInternalFrame {
      */
     private void DatosDelProducto() {
         try {
-            String sql = "select * from tb_producto where nombre = '" + this.jComboBox_TipoPago.getSelectedItem() + "'";
+            String sql = "select * from Producto where Nombre = '" + this.jComboBox_producto.getSelectedItem() + "'";
             Connection cn = Conexion.conectar();
             Statement st;
             st = cn.createStatement();
             ResultSet rs = st.executeQuery(sql);
             while (rs.next()) {
-                idProducto = rs.getInt("idProducto");
-                nombre = rs.getString("nombre");
-                cantidadProductoBBDD = rs.getInt("cantidad");
-                precioUnitario = rs.getDouble("precio");
-                porcentajeIgv = rs.getInt("porcentajeIgv");
-                this.CalcularIgv(precioUnitario, porcentajeIgv);//calcula y retorna el igv
+                codProducto = rs.getInt("CodProducto");
+                nombre = rs.getString("Nombre");
+                cantidadProductoBBDD = rs.getInt("Stock");
+                precioUnitario = rs.getDouble("Precio");
             }
 
         } catch (SQLException e) {
@@ -699,92 +645,69 @@ public class InterFacturarVenta extends javax.swing.JInternalFrame {
     }
 
     /*
-        Metodo para calcular igv
-     */
-    private double CalcularIgv(double precio, int porcentajeIgv) {
-        int p_igv = porcentajeIgv;
 
-        switch (p_igv) {
-            case 0:
-                igv = 0.0;
-                break;
-            case 18:
-                igv = (precio * cantidad) * 0.18;
-                break;
-            default:
-                break;
-        }
-
-        return igv;
-    }
 
     /*
     Metodo para calcular el total a pagar de todos los productos agregados
      */
     private void CalcularTotalPagar() {
         subtotalGeneral = 0;
-        descuentoGeneral = 0;
-        igvGeneral = 0;
+
         totalPagarGeneral = 0;
 
         for (DetalleVenta elemento : listaProductos) {
             subtotalGeneral += elemento.getSubTotal();
-            descuentoGeneral += elemento.getDescuento();
-            igvGeneral += elemento.getIgv();
+
             totalPagarGeneral += elemento.getTotalPagar();
         }
         //redondear decimales
         subtotalGeneral = (double) Math.round(subtotalGeneral * 100) / 100;
-        igvGeneral = (double) Math.round(igvGeneral * 100) / 100;
-        descuentoGeneral = (double) Math.round(descuentoGeneral * 100) / 100;
+
         totalPagarGeneral = (double) Math.round(totalPagarGeneral * 100) / 100;
 
         //enviar datos a la vista
         txt_subtotal.setText(String.valueOf(subtotalGeneral));
-        txt_igv.setText(String.valueOf(igvGeneral));
-        txt_descuento.setText(String.valueOf(descuentoGeneral));
+
         txt_total_pagar.setText(String.valueOf(totalPagarGeneral));
     }
 
-    /*
-    Metodo para obtener id del cliente
-     */
-    private void ObtenerIdCliente() {
+
+    private void ObtenerCodPaciente() {
         try {
-            String sql = "select * from tb_cliente where concat(nombre,' ',apellido) = '" + this.jComboBox_cliente.getSelectedItem() + "'";
+            String sql = "select * from Paciente where concat(Nombres,' ',Apellidos) = '" + this.jComboBox_cliente.getSelectedItem() + "'";
             Connection cn = Conexion.conectar();
             Statement st;
             st = cn.createStatement();
             ResultSet rs = st.executeQuery(sql);
             while (rs.next()) {
-                idCliente = rs.getInt("idCliente");
+               codPaciente = rs.getInt("CodPaciente");
             }
 
         } catch (SQLException e) {
-            System.out.println("Error al obtener id del cliente, " + e);
+            System.out.println("Error al obtener cod del paciente, " + e);
         }
     }
 
     //metodo para restar la cantidad (stock) de los productos vendidos
-    private void RestarStockProductos(int idProducto, int cantidad) {
+    private void RestarStockProductos(int codProducto, int cantidad) {
         int cantidadProductosBaseDeDatos = 0;
         try {
             Connection cn = Conexion.conectar();
-            String sql = "select idProducto, cantidad from tb_producto where idProducto = '" + idProducto + "'";
+            String sql = "select CodProducto, Stock from Producto where CodProducto = '" + codProducto + "'";
             Statement st;
             st = cn.createStatement();
             ResultSet rs = st.executeQuery(sql);
             while (rs.next()) {
-                cantidadProductosBaseDeDatos = rs.getInt("cantidad");
+                cantidadProductosBaseDeDatos = rs.getInt("Stock");
             }
             cn.close();
         } catch (SQLException e) {
-            System.out.println("Error al restar cantidad 1, " + e);
+            System.out.println("Error al restar Stock 1, " + e);
         }
 
         try {
             Connection cn = Conexion.conectar();
-            PreparedStatement consulta = cn.prepareStatement("update tb_producto set cantidad=? where idProducto = '" + idProducto + "'");
+            PreparedStatement consulta = cn.prepareStatement("update Producto set Stock=? where CodProducto = '" + codProducto + "'");
             int cantidadNueva = cantidadProductosBaseDeDatos - cantidad;
             consulta.setInt(1, cantidadNueva);
             if(consulta.executeUpdate() > 0){
@@ -792,11 +715,46 @@ public class InterFacturarVenta extends javax.swing.JInternalFrame {
             }
             cn.close();
         } catch (SQLException e) {
-            System.out.println("Error al restar cantidad 2, " + e);
+            System.out.println("Error al restar Stock 2, " + e);
         }
     }
 
     private void CargarComboEmpleado() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        Connection cn = Conexion.conectar();
+        String sql = "SELECT * FROM Empleado"; // Puedes ajustar esto según tu modelo de datos
+        Statement st;
+
+        try {
+            st = cn.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            jComboBox_empleado.removeAllItems();
+            jComboBox_empleado.addItem("Seleccione Empleado:");
+
+            while (rs.next()) {
+                jComboBox_empleado.addItem(rs.getString("Nombre"));
+            }
+
+            cn.close();
+
+        } catch (SQLException e) {
+            System.out.println("¡Error al cargar Empleado!");
+        }
     }
+    
+    private void ObtenerCodEmpleado() {
+        try {
+            String sql = "select * from Empleado where concat(Nombre,' ',Apellido) = '" + this.jComboBox_empleado.getSelectedItem() + "'";
+            Connection cn = Conexion.conectar();
+            Statement st;
+            st = cn.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            while (rs.next()) {
+               codPaciente = rs.getInt("CodEmpleado");
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error al obtener cod del Empleado, " + e);
+        }
+    }
+
 }

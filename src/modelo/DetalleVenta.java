@@ -10,8 +10,10 @@ public class DetalleVenta {
     //esta de mas
     private String nombre;
     private int cantidad;
-    private String tipoPago;
+    private double precioUnitario;
     private double subTotal;
+    private String tipoPago;
+    private double totalPagar;
     
     
     public DetalleVenta() {
@@ -20,19 +22,24 @@ public class DetalleVenta {
         this.codProducto = 0;
         this.nombre = "";
         this.cantidad = 0;
-        this.tipoPago = "";
-        this.subTotal = 0.0;
+        this.precioUnitario = 0.0;
+        this.subTotal = 0.0;        
+        this.totalPagar = 0.0;
+
     }
 
-    public DetalleVenta(int codDetalleVenta, int codVenta, int codProducto, String nombre, int cantidad, String tipoPago, double subTotal) {
+    public DetalleVenta(int codDetalleVenta, int codVenta, int codProducto, String nombre, int cantidad, double precioUnitario, double subTotal, double totalPagar) {
         this.codDetalleVenta = codDetalleVenta;
         this.codVenta = codVenta;
         this.codProducto = codProducto;
         this.nombre = nombre;
         this.cantidad = cantidad;
-        this.tipoPago = tipoPago;
+        this.precioUnitario = precioUnitario;
         this.subTotal = subTotal;
+        this.totalPagar = totalPagar;
     }
+
+
 
     public int getCodDetalleVenta() {
         return codDetalleVenta;
@@ -74,12 +81,12 @@ public class DetalleVenta {
         this.cantidad = cantidad;
     }
 
-    public String getTipoPago() {
-        return tipoPago;
+    public double getPrecioUnitario() {
+        return precioUnitario;
     }
 
-    public void setTipoPago(String tipoPago) {
-        this.tipoPago = tipoPago;
+    public void setPrecioUnitario(double precioUnitario) {
+        this.precioUnitario = precioUnitario;
     }
 
     public double getSubTotal() {
@@ -89,6 +96,19 @@ public class DetalleVenta {
     public void setSubTotal(double subTotal) {
         this.subTotal = subTotal;
     }
+
+
+    public double getTotalPagar() {
+        return totalPagar;
+    }
+
+    public void setTotalPagar(double totalPagar) {
+        this.totalPagar = totalPagar;
+    }
+
+    
+
+    
 
     
 }

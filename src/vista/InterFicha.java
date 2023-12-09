@@ -6,16 +6,19 @@ import controlador.Controlador_FichaMedica;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.HeadlessException;
+import java.io.File;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import modelo.FichaMedica;
 
 public class InterFicha extends javax.swing.JInternalFrame {
     
-    
+    String ruta_archivo ="";
     int obtenerCodPacienteCombo = 0;
 
 
@@ -46,11 +49,11 @@ public class InterFicha extends javax.swing.JInternalFrame {
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        txt_examenes = new javax.swing.JTextField();
         txt_alergias = new javax.swing.JTextField();
         txt_fecha_visita = new com.toedter.calendar.JDateChooser();
         txt_tratamiento = new javax.swing.JTextField();
         jButton_Guardar = new javax.swing.JButton();
+        Boton_pdf = new javax.swing.JButton();
         txt_diagnostico = new javax.swing.JTextField();
         jComboBox_paciente = new javax.swing.JComboBox<>();
         jLabel_wallpaper = new javax.swing.JLabel();
@@ -94,9 +97,6 @@ public class InterFicha extends javax.swing.JInternalFrame {
         jLabel7.setText("Tratamiento:");
         getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 200, 90, -1));
 
-        txt_examenes.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        getContentPane().add(txt_examenes, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 50, 170, -1));
-
         txt_alergias.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         getContentPane().add(txt_alergias, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 80, 170, -1));
 
@@ -121,6 +121,14 @@ public class InterFicha extends javax.swing.JInternalFrame {
         });
         getContentPane().add(jButton_Guardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 230, 90, 30));
 
+        Boton_pdf.setText("Seleccionar");
+        Boton_pdf.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Boton_pdfActionPerformed(evt);
+            }
+        });
+        getContentPane().add(Boton_pdf, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 50, 170, -1));
+
         txt_diagnostico.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txt_diagnosticoActionPerformed(evt);
@@ -141,42 +149,52 @@ public class InterFicha extends javax.swing.JInternalFrame {
     private void jButton_GuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_GuardarActionPerformed
 
         FichaMedica fichaMedica = new FichaMedica();
-        Controlador_FichaMedica controlFichaMedica = new Controlador_FichaMedica();
-        
-        String paciente = "";
-        
-        paciente = jComboBox_paciente.getSelectedItem().toString().trim();
+    Controlador_FichaMedica controlFichaMedica = new Controlador_FichaMedica();
 
+    String paciente = "";
 
-        //validar campos
-        if (txt_examenes.getText().equals("") || txt_alergias.getText().equals("") || txt_fecha_visita.getDate() == null || txt_diagnostico.getText().equals("") || txt_tratamiento.getText().equals("")) {
-            JOptionPane.showMessageDialog(null, "Complete todos los campos");
-            txt_examenes.setBackground(Color.red);
-            txt_alergias.setBackground(Color.red);
-            txt_fecha_visita.setBackground(Color.red);
-            txt_diagnostico.setBackground(Color.red);
-            txt_tratamiento.setBackground(Color.red);
-            
-        } else {
-            //consulta para ver si el empleado ya existe
-            if (!controlFichaMedica.existeFichaMedica(paciente)) {
-                if (paciente.equalsIgnoreCase("Seleccione DNI:")) {
-                    JOptionPane.showMessageDialog(null, "Seleccione DNI");
-                }else {
-                    try {
-                        fichaMedica.setExamenes(txt_examenes.getText().trim());
-                        fichaMedica.setAlergias(txt_alergias.getText().trim());
-                        fichaMedica.setFecha_visita(txt_fecha_visita.getDate());
-                        fichaMedica.setDiagnostico(txt_diagnostico.getText().trim());
-                        fichaMedica.setTratamiento(txt_tratamiento.getText().trim());
-                        
-                        // Id de la especialidad
-                        this.CodPaciente();
-                        fichaMedica.setCodPaciente(obtenerCodPacienteCombo);
+    paciente = jComboBox_paciente.getSelectedItem().toString().trim();
+    String ruta_archivo = "";
+
+    //validar campos
+    if (txt_alergias.getText().equals("") || txt_fecha_visita.getDate() == null || txt_diagnostico.getText().equals("") || txt_tratamiento.getText().equals("")) {
+        JOptionPane.showMessageDialog(null, "Complete todos los campos");
+        txt_alergias.setBackground(Color.red);
+        txt_fecha_visita.setBackground(Color.red);
+        txt_diagnostico.setBackground(Color.red);
+        txt_tratamiento.setBackground(Color.red);
+
+    } else {
+        //consulta para ver si el empleado ya existe
+        if (!controlFichaMedica.existeFichaMedica(paciente)) {
+            if (paciente.equalsIgnoreCase("Seleccione DNI:")) {
+                JOptionPane.showMessageDialog(null, "Seleccione DNI");
+            } else {
+                try {
+                    fichaMedica.setAlergias(txt_alergias.getText().trim());
+                    fichaMedica.setFecha_visita(txt_fecha_visita.getDate());
+                    fichaMedica.setDiagnostico(txt_diagnostico.getText().trim());
+                    fichaMedica.setTratamiento(txt_tratamiento.getText().trim());
+
+                    // Id de la especialidad
+                    this.CodPaciente();
+                    fichaMedica.setCodPaciente(obtenerCodPacienteCombo);
+
+                    // Show a file chooser dialog to select the PDF file
+                    JFileChooser fileChooser = new JFileChooser();
+                    fileChooser.setDialogTitle("Seleccionar Archivo PDF");
+                    fileChooser.setFileFilter(new FileNameExtensionFilter("Archivos PDF (*.pdf)", "pdf"));
+                    int userSelection = fileChooser.showOpenDialog(null);
+
+                    if (userSelection == JFileChooser.APPROVE_OPTION) {
+                        File selectedFile = fileChooser.getSelectedFile();
+                        String filePath = selectedFile.getAbsolutePath();
+
+                        // Save the PDF file
+                        fichaMedica.setRutaArchivoPDF(filePath);
 
                         if (controlFichaMedica.guardar(fichaMedica)) {
-                            JOptionPane.showMessageDialog(null, "Registro Guardado");
-                            txt_examenes.setBackground(Color.green);
+                            JOptionPane.showMessageDialog(null, "Registro y PDF Guardados");
                             txt_alergias.setBackground(Color.green);
                             txt_fecha_visita.setBackground(Color.green);
                             txt_diagnostico.setBackground(Color.green);
@@ -187,15 +205,16 @@ public class InterFicha extends javax.swing.JInternalFrame {
                         } else {
                             JOptionPane.showMessageDialog(null, "Error al Guardar");
                         }
-
-                    } catch (HeadlessException | NumberFormatException e) {
-                        System.out.println("Error en: " + e);
                     }
+
+                } catch (HeadlessException | NumberFormatException e) {
+                    System.out.println("Error en: " + e);
                 }
-            } else {
-                JOptionPane.showMessageDialog(null, "El empleado ya existe en la Base de Datos");
             }
+        } else {
+            JOptionPane.showMessageDialog(null, "El empleado ya existe en la Base de Datos");
         }
+    }
         
     }//GEN-LAST:event_jButton_GuardarActionPerformed
 
@@ -207,8 +226,13 @@ public class InterFicha extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txt_diagnosticoActionPerformed
 
+    private void Boton_pdfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Boton_pdfActionPerformed
+      
+    }//GEN-LAST:event_Boton_pdfActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton Boton_pdf;
     private javax.swing.JButton jButton_Guardar;
     private javax.swing.JComboBox<String> jComboBox_paciente;
     private javax.swing.JLabel jLabel1;
@@ -221,7 +245,6 @@ public class InterFicha extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel_wallpaper;
     private javax.swing.JTextField txt_alergias;
     private javax.swing.JTextField txt_diagnostico;
-    private javax.swing.JTextField txt_examenes;
     private com.toedter.calendar.JDateChooser txt_fecha_visita;
     private javax.swing.JTextField txt_tratamiento;
     // End of variables declaration//GEN-END:variables
@@ -230,7 +253,7 @@ public class InterFicha extends javax.swing.JInternalFrame {
      * Metodo para limpiar campos
      */
     private void Limpiar() {
-        txt_examenes.setText("");
+        Boton_pdf.setSelected(false);
         txt_alergias.setText("");
         txt_fecha_visita.setDate(null);
         jComboBox_paciente.setSelectedItem("Seleccione DNI:");
@@ -279,5 +302,17 @@ public class InterFicha extends javax.swing.JInternalFrame {
         return obtenerCodPacienteCombo;
         
     }
+    
+    private void seleccionar_pdf(){                                          
+        JFileChooser j = new JFileChooser();
+        FileNameExtensionFilter fi = new FileNameExtensionFilter("pdf", "pdf");
+        j.setFileFilter(fi);
+        int se = j.showOpenDialog(this);
+        if (se == 0){
+            this.Boton_pdf.setText("" + j.getSelectedFile().getName());
+            ruta_archivo = j.getSelectedFile().getAbsolutePath();
+        } else {
+        }
+    }    
 
 }
