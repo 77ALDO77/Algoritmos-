@@ -38,8 +38,28 @@ public class Controlador_Cita {
 
         return cita;
     }
-    public boolean RegistrarCita (Cita objeto){
+
+    public boolean RegistrarCita(Cita objeto) {
         boolean respuesta = false;
+        Connection cn = Conexion.conectar();
+        try {
+            PreparedStatement consulta = cn.prepareStatement("insert into Cita values(?,?,?,?,?,?)");
+            consulta.setInt(1, 0);
+            consulta.setInt(2, objeto.getCodPaciente());
+            consulta.setInt(3, objeto.getCodDoctor());
+            consulta.setInt(4, objeto.getCodArea());
+            java.sql.Date FechaCitaSQL = new java.sql.Date(objeto.getFecha_cita().getTime());
+            consulta.setDate(5, FechaCitaSQL);
+            consulta.setString(6, objeto.getHora());
+            if (consulta.executeUpdate() > 0) {
+                respuesta = true;
+            }
+            cn.close();
+        }catch(SQLException e){
+            System.out.println("Error al Registar Cita: "+ e);
+        }
         return respuesta;
     }
+    
+    //end
 }

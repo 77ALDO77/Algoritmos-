@@ -7,9 +7,10 @@ public class Cita {
     private int codPaciente;
     private int codDoctor;
     private int codServicio;
+    private int codArea;
     private String nombre;
     private String apellido;
-    private Date fecha_nacimiento;    
+    private Date fecha_nacimiento;
     private Date fecha_cita;
     private int dni;
     private int celular;
@@ -17,10 +18,12 @@ public class Cita {
     private String area;
     private String doctor;
     private String servicio;
+    private String hora;
 
     public Cita() {
         this.codPaciente = 0;
         this.codDoctor = 0;
+        this.codArea = 0;
         this.codServicio = 0;
         this.nombre = "";
         this.apellido = "";
@@ -29,25 +32,47 @@ public class Cita {
         this.dni = 0;
         this.celular = 0;
         this.sexo = "";
+        this.hora = "";
         this.area = "";
         this.doctor = "";
         this.servicio = "";
     }
 
-    public Cita(int codPaciente,int codDoctor,int codServicio, String nombre, String apellido, Date fecha_nacimiento, String area, Date fecha_cita,String doctor,String servicio, int dni, int celular, String sexo) {
+    public Cita(int codPaciente, int codDoctor, int codArea, int codServicio,
+            String nombre, String hora, String apellido, Date fecha_nacimiento, 
+            String area, Date fecha_cita, String doctor, String servicio,
+            int dni, int celular, String sexo) {
         this.codPaciente = codPaciente;
         this.codDoctor = codDoctor;
         this.codServicio = codServicio;
+        this.codArea = codServicio;
         this.nombre = nombre;
         this.apellido = apellido;
         this.fecha_nacimiento = fecha_nacimiento;
         this.fecha_cita = fecha_cita;
         this.dni = dni;
         this.celular = celular;
+        this.hora = hora;
         this.sexo = sexo;
         this.area = area;
         this.doctor = doctor;
         this.servicio = servicio;
+    }
+
+    public String getHora() {
+        return hora;
+    }
+
+    public void setHora(String hora) {
+        this.hora = hora;
+    }
+
+    public int getCodArea() {
+        return codArea;
+    }
+
+    public void setCodArea(int codArea) {
+        this.codArea = codArea;
     }
 
     public int getCodServicio() {
@@ -145,6 +170,7 @@ public class Cita {
     public void setSexo(String sexo) {
         this.sexo = sexo;
     }
+
     public Date getFecha_cita() {
         return fecha_cita;
     }
