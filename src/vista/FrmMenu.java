@@ -52,6 +52,7 @@ public class FrmMenu extends javax.swing.JFrame {
         jMenuItem_registrar_paciente = new javax.swing.JMenuItem();
         jMenuItem_gestionar_paciente = new javax.swing.JMenuItem();
         jMenuItem_ficha_paciente = new javax.swing.JMenuItem();
+        jMenuItem_examenpdf = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem_registrar_empleado = new javax.swing.JMenuItem();
         jMenuItem_gestionar_empleado = new javax.swing.JMenuItem();
@@ -117,6 +118,15 @@ public class FrmMenu extends javax.swing.JFrame {
             }
         });
         jMenu1.add(jMenuItem_ficha_paciente);
+
+        jMenuItem_examenpdf.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jMenuItem_examenpdf.setText("Examenes");
+        jMenuItem_examenpdf.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem_examenpdfActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem_examenpdf);
 
         jMenuBar1.add(jMenu1);
 
@@ -488,6 +498,12 @@ public class FrmMenu extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem_gestionar_compraActionPerformed
 
+    private void jMenuItem_examenpdfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_examenpdfActionPerformed
+        Examenes Exam = new Examenes();
+        jDesktopPane_menu.add(Exam);
+        Exam.setVisible(true);
+    }//GEN-LAST:event_jMenuItem_examenpdfActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -540,6 +556,7 @@ public class FrmMenu extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem_cerrar_sesion;
     private javax.swing.JMenuItem jMenuItem_clasificacion;
     private javax.swing.JMenuItem jMenuItem_especialidad;
+    private javax.swing.JMenuItem jMenuItem_examenpdf;
     private javax.swing.JMenuItem jMenuItem_facturar_cita;
     private javax.swing.JMenuItem jMenuItem_ficha_paciente;
     private javax.swing.JMenuItem jMenuItem_gestionarArea;

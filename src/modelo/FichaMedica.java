@@ -14,6 +14,7 @@ public class FichaMedica {
     private Date fecha_visita;
     private String diagnostico;
     private String tratamiento;
+
         
     public FichaMedica() {
         this.codFicha = 0;
