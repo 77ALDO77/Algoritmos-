@@ -71,6 +71,8 @@ public class InterRegistrarCita extends javax.swing.JInternalFrame {
         jDateChooser_fecha_nacimiento = new com.toedter.calendar.JDateChooser();
         jDateChooser_fecha_cita1 = new com.toedter.calendar.JDateChooser();
         jComboBox_area = new javax.swing.JComboBox<>();
+        jLabel3 = new javax.swing.JLabel();
+        txt_Hora = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
 
         setClosable(true);
@@ -223,6 +225,18 @@ public class InterRegistrarCita extends javax.swing.JInternalFrame {
         });
         jPanel1.add(jComboBox_area, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 240, 170, -1));
 
+        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel3.setText("Hora:");
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 270, 60, 30));
+
+        txt_Hora.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txt_HoraActionPerformed(evt);
+            }
+        });
+        jPanel1.add(txt_Hora, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 300, 90, 30));
+
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMG/fondo-diseño.jpg"))); // NOI18N
         jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 680, 430));
 
@@ -281,6 +295,10 @@ public class InterRegistrarCita extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jComboBox_areaActionPerformed
 
+    private void txt_HoraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_HoraActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txt_HoraActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JButton jButton_RegistrarCita;
@@ -298,12 +316,14 @@ public class InterRegistrarCita extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JLabel jLabel_celular;
     private javax.swing.JPanel jPanel1;
+    public javax.swing.JTextField txt_Hora;
     public javax.swing.JTextField txt_apellido;
     public javax.swing.JTextField txt_celular;
     public javax.swing.JTextField txt_cliente_buscar;
@@ -387,13 +407,10 @@ public class InterRegistrarCita extends javax.swing.JInternalFrame {
             ResultSet rs = st.executeQuery(sql);
             jComboBox_servicio.removeAllItems();
             jComboBox_servicio.addItem("Seleccione clasificacion:");
-
             while (rs.next()) {
                 jComboBox_servicio.addItem(rs.getString("Nombre"));
             }
-
             cn.close();
-
         } catch (SQLException e) {
             System.out.println("¡Error al cargar servicio!");
         }
@@ -408,17 +425,13 @@ public class InterRegistrarCita extends javax.swing.JInternalFrame {
             Connection cn = Conexion.conectar();
             st = cn.createStatement();
             ResultSet rs = st.executeQuery(sql);
-
             while (rs.next()) {
                 obtenerCodArea= rs.getInt("CodArea");
             }
-
         } catch (SQLException e) {
             System.out.println("Error al obtener Cod Area");
         }
-
         return obtenerCodArea;
-
     }
     
     private void cargarComboArea() {

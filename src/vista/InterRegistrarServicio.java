@@ -17,19 +17,16 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import modelo.Servicio;
 
-
-
 public class InterRegistrarServicio extends javax.swing.JInternalFrame {
-    
+
     int codServicio;
-    int obtenerCodClasificacionCombo =0;
-    
+    int obtenerCodClasificacionCombo = 0;
 
     public InterRegistrarServicio() {
         initComponents();
         this.setSize(new Dimension(625, 485));
         this.setTitle("Registrar Servicio");
-        
+
         this.CargarTablaServicios();
         this.CargarComboClasificacion();
         this.repaint();
@@ -167,88 +164,25 @@ public class InterRegistrarServicio extends javax.swing.JInternalFrame {
 
         Servicio servicio = new Servicio();
         Controlador_Servicio controlServicio = new Controlador_Servicio();
-        
-        String clasificacion="";
+
+        String clasificacion = "";
         clasificacion = jComboBox_clasificacion.getSelectedItem().toString().trim();
 
         //validamos camoos vacios
-        if (txt_descripcion.getText().equals("") || txt_precio.getText().equals("") ) {
+        if (txt_descripcion.getText().equals("") || txt_precio.getText().equals("")) {
             JOptionPane.showMessageDialog(null, "Complete  todos los campos");
             txt_descripcion.setBackground(Color.red);
             txt_precio.setBackground(Color.red);
         } else {
-            if (!controlServicio.existeServicio(txt_descripcion.getText().trim()) ) {
+            if (!controlServicio.existeServicio(txt_descripcion.getText().trim())) {
                 if (clasificacion.equalsIgnoreCase("Seleccione Clasificacion:")) {
                     JOptionPane.showMessageDialog(null, "Seleccione Clasificacion");
                 } else {
                     try {
-                        
-                        
+
                         servicio.setDescripcion(txt_descripcion.getText().trim());
-                    
-                            String precioTXT = "";
-                            double Precio = 0.0;
-                            precioTXT = txt_precio.getText().trim();
-                            boolean aux = false;
-                            /*
-                            *Si el usuario ingresa , (coma) como punto decimal,
-                            lo transformamos a punto (.)
-                             */
-                            for (int i = 0; i < precioTXT.length(); i++) {
-                                if (precioTXT.charAt(i) == ',') {
-                                    String precioNuevo = precioTXT.replace(",", ".");
-                                    Precio = Double.parseDouble(precioNuevo);
-                                    aux = true;
-                                }
-                            }
-                            //evaluar la condicion
-                            if (aux == true) {
-                                servicio.setPrecio(Precio);
-                            } else {
-                                Precio = Double.parseDouble(precioTXT);
-                                servicio.setPrecio(Precio);
-                            }
-                            
-                            this.CodClasificacion();
-                            servicio.setCodClasificacion(obtenerCodClasificacionCombo);
-                            
-                            
-                            if (controlServicio.guardar(servicio)) {
-                                JOptionPane.showMessageDialog(null, "Registro Guardado");
-                                
-                                txt_descripcion.setBackground(Color.green);
-                                txt_precio.setBackground(Color.green);
-                                this.CargarComboClasificacion();
-                                this.Limpiar();
-                                
-                                } else {
-                                JOptionPane.showMessageDialog(null, "Error al Guardar");
-                            }
-                            } catch (HeadlessException | NumberFormatException e) {
-                            System.out.println("Error en: " + e);
-                        }
-                    }
-            } else {
-                JOptionPane.showMessageDialog(null, "El Servicio ya existe en la Base de Datos");
-            }
-          } 
-           
-            
-                
-    }//GEN-LAST:event_jButton_guardarActionPerformed
 
-    private void txt_precioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_precioActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txt_precioActionPerformed
-
-    private void jButton_actualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_actualizarActionPerformed
-
-        if (!txt_descripcion.getText().isEmpty()&&!txt_precio.getText().isEmpty()) {
-            Servicio servicio = new Servicio();
-            Controlador_Servicio controlServicio = new Controlador_Servicio();
-
-            servicio.setDescripcion(txt_descripcion.getText().trim());
-            String precioTXT = "";
+                        String precioTXT = "";
                         double Precio = 0.0;
                         precioTXT = txt_precio.getText().trim();
                         boolean aux = false;
@@ -270,10 +204,70 @@ public class InterRegistrarServicio extends javax.swing.JInternalFrame {
                             Precio = Double.parseDouble(precioTXT);
                             servicio.setPrecio(Precio);
                         }
+
+                        this.CodClasificacion();
+                        servicio.setCodClasificacion(obtenerCodClasificacionCombo);
+
+                        if (controlServicio.guardar(servicio)) {
+                            JOptionPane.showMessageDialog(null, "Registro Guardado");
+
+                            txt_descripcion.setBackground(Color.green);
+                            txt_precio.setBackground(Color.green);
+                            this.CargarComboClasificacion();
+                            this.Limpiar();
+
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Error al Guardar");
+                        }
+                    } catch (HeadlessException | NumberFormatException e) {
+                        System.out.println("Error en: " + e);
+                    }
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "El Servicio ya existe en la Base de Datos");
+            }
+        }
+
+
+    }//GEN-LAST:event_jButton_guardarActionPerformed
+
+    private void txt_precioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_precioActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txt_precioActionPerformed
+
+    private void jButton_actualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_actualizarActionPerformed
+
+        if (!txt_descripcion.getText().isEmpty() && !txt_precio.getText().isEmpty()) {
+            Servicio servicio = new Servicio();
+            Controlador_Servicio controlServicio = new Controlador_Servicio();
+
+            servicio.setDescripcion(txt_descripcion.getText().trim());
+            String precioTXT = "";
+            double Precio = 0.0;
+            precioTXT = txt_precio.getText().trim();
+            boolean aux = false;
+            /*
+                            *Si el usuario ingresa , (coma) como punto decimal,
+                            lo transformamos a punto (.)
+             */
+            for (int i = 0; i < precioTXT.length(); i++) {
+                if (precioTXT.charAt(i) == ',') {
+                    String precioNuevo = precioTXT.replace(",", ".");
+                    Precio = Double.parseDouble(precioNuevo);
+                    aux = true;
+                }
+            }
+            //evaluar la condicion
+            if (aux == true) {
+                servicio.setPrecio(Precio);
+            } else {
+                Precio = Double.parseDouble(precioTXT);
+                servicio.setPrecio(Precio);
+            }
             if (controlServicio.actualizar(servicio, codServicio)) {
                 JOptionPane.showMessageDialog(null, "Servicio Actulizada");
                 txt_descripcion.setText("");
-                
+
                 this.CargarTablaServicios();
             } else {
                 JOptionPane.showMessageDialog(null, "Error al actualizar Servicio");
@@ -298,7 +292,7 @@ public class InterRegistrarServicio extends javax.swing.JInternalFrame {
                 JOptionPane.showMessageDialog(null, "¡Error al eliminar producto!");
             }
         }
-        
+
     }//GEN-LAST:event_jButton_eliminarActionPerformed
 
 
@@ -326,12 +320,12 @@ public class InterRegistrarServicio extends javax.swing.JInternalFrame {
         txt_precio.setText("");
 
     }
-    
+
     String nombreClasificacion = "";
     double precio = 0.0;
 
     private void CargarTablaServicios() {
-        
+
         Connection con = Conexion.conectar();
         DefaultTableModel model = new DefaultTableModel();
         String sql = "select CodServicio,CodClasificacion, Descripcion, Precio  from Servicio";
@@ -346,7 +340,6 @@ public class InterRegistrarServicio extends javax.swing.JInternalFrame {
             model.addColumn("Nombre");
             model.addColumn("Descripcion");
             model.addColumn("Precio");
-            
 
             while (rs.next()) {
                 Object fila[] = new Object[4];
@@ -374,53 +367,50 @@ public class InterRegistrarServicio extends javax.swing.JInternalFrame {
             }
 
             private void EnviarDatosCategoriaSeleccionada(int codServicio) {
-                
+
                 try {
-            Connection con = Conexion.conectar();
-            PreparedStatement pst = con.prepareStatement(
-                    "select * from Servicio where CodServicio = '" + codServicio + "'");
-            ResultSet rs = pst.executeQuery();
-            if (rs.next()) {
-                txt_descripcion.setText(rs.getString("Descripcion"));
-                txt_precio.setText(rs.getString("Precio"));
-                int codClasi = rs.getInt("CodClasificacion");
-                jComboBox_clasificacion.setSelectedItem(relacionarClasificacion(codClasi));
-            }
-            con.close();
-        } catch (SQLException e) {
-            System.out.println("Error al seleccionar Especialidad: " + e);
-        }
-                
+                    Connection con = Conexion.conectar();
+                    PreparedStatement pst = con.prepareStatement(
+                            "select * from Servicio where CodServicio = '" + codServicio + "'");
+                    ResultSet rs = pst.executeQuery();
+                    if (rs.next()) {
+                        txt_descripcion.setText(rs.getString("Descripcion"));
+                        txt_precio.setText(rs.getString("Precio"));
+                        int codClasi = rs.getInt("CodClasificacion");
+                        jComboBox_clasificacion.setSelectedItem(relacionarClasificacion(codClasi));
+                    }
+                    con.close();
+                } catch (SQLException e) {
+                    System.out.println("Error al seleccionar Especialidad: " + e);
+                }
+
             }
 
             private Object relacionarClasificacion(int codClasificacion) {
-                
-            String sql = "select Nombre from Clasificacion where CodClasificacion = '" + codClasificacion + "'";
-            Statement st;
-            try {
-                Connection cn = Conexion.conectar();
-                st = cn.createStatement();
-                ResultSet rs = st.executeQuery(sql);
-                while (rs.next()) {
-                    nombreClasificacion = rs.getString("");
+
+                String sql = "select Nombre from Clasificacion where CodClasificacion = '" + codClasificacion + "'";
+                Statement st;
+                try {
+                    Connection cn = Conexion.conectar();
+                    st = cn.createStatement();
+                    ResultSet rs = st.executeQuery(sql);
+                    while (rs.next()) {
+                        nombreClasificacion = rs.getString("");
+                    }
+                    cn.close();
+
+                } catch (SQLException e) {
+                    System.out.println("¡Error al obtener el id de la categoria!");
                 }
-                cn.close();
-
-            } catch (SQLException e) {
-                System.out.println("¡Error al obtener el id de la categoria!");
+                return nombreClasificacion;
             }
-            return nombreClasificacion;
-            }
-            
-            
 
-            
         });
-        
+
     }
 
     private int CodClasificacion() {
-        
+
         String sql = "select * from Clasificacion where Nombre = '" + this.jComboBox_clasificacion.getSelectedItem() + "'";
         Statement st;
         try {
@@ -434,11 +424,11 @@ public class InterRegistrarServicio extends javax.swing.JInternalFrame {
             System.out.println("Error al obener Cod Clasificacion");
         }
         return obtenerCodClasificacionCombo;
-        
+
     }
 
     private void CargarComboClasificacion() {
-        
+
         Connection cn = Conexion.conectar();
         String sql = "select * from Clasificacion";
         Statement st;
@@ -456,8 +446,7 @@ public class InterRegistrarServicio extends javax.swing.JInternalFrame {
         } catch (SQLException e) {
             System.out.println("¡Error al cargar clasificacion!");
         }
-        
-    }
 
+    }
 
 }
