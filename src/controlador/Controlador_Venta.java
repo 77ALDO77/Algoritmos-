@@ -23,13 +23,12 @@ public class Controlador_Venta {
         boolean respuesta = false;
         Connection cn = Conexion.conectar();
         try {
-            PreparedStatement consulta = cn.prepareStatement("insert into Venta values(?,?,?,?,?)",
+            PreparedStatement consulta = cn.prepareStatement("insert into Venta values(?,?,?,?)",
                     Statement.RETURN_GENERATED_KEYS);
             consulta.setInt(1, 0);//id
             consulta.setInt(2, objeto.getCodPaciente());
-            consulta.setInt(3, objeto.getCodEmpleado());
-            consulta.setString(4,objeto.getFecha());
-            consulta.setDouble(5, objeto.getTotal());
+            consulta.setString(3,objeto.getFecha());
+            consulta.setDouble(4, objeto.getTotal());
             if (consulta.executeUpdate() > 0) {
                 respuesta = true;
             }

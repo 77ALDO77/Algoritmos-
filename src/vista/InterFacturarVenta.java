@@ -29,7 +29,6 @@ public class InterFacturarVenta extends javax.swing.JInternalFrame {
     private DetalleVenta producto;
 
     private int codPaciente = 0;//cod del cliente sleccionado
-    private int codEmpleado = 0;
     private int codProducto = 0;
     private String nombre = "";
     private int cantidadProductoBBDD = 0;
@@ -56,7 +55,6 @@ public class InterFacturarVenta extends javax.swing.JInternalFrame {
 
         //Cargar lo Clientes en la vista - cargar productos
         this.CargarComboPacientes();
-        this.CargarComboEmpleado();
         this.CargarComboProductos();
         
 
@@ -471,15 +469,13 @@ public class InterFacturarVenta extends javax.swing.JInternalFrame {
         Date date = new Date();
         fechaActual = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(date);
         if (!jComboBox_cliente.getSelectedItem().equals("Seleccione cliente:") 
-                && !jComboBox_empleado.getSelectedItem().equals("Seleccione empleado:")) {
+                ) {
             if (listaProductos.size() > 0) {
                 //metodo para obtener el id del cliente
                 this.ObtenerCodPaciente();
-                this.ObtenerCodEmpleado();
                 //registrar cabecera
                 venta.setCodVenta(0);
                 venta.setCodPaciente(codPaciente);
-                venta.setCodEmpleado(codEmpleado);
                 venta.setTotal(Double.parseDouble(txt_total_pagar.getText()));
                 venta.setFecha(fechaActual);
                 if (controlVenta.guardar(venta)) {
@@ -505,7 +501,6 @@ public class InterFacturarVenta extends javax.swing.JInternalFrame {
                             txt_cambio.setText("0.0");
                             auxCodDetalle = 1;
                             this.CargarComboPacientes();
-                            this.CargarComboEmpleado();
                             this.RestarStockProductos(elemento.getCodProducto(), elemento.getCantidad());
                         } else {
                             JOptionPane.showMessageDialog(null, "¡Error al guardar detalle de venta!");
@@ -738,42 +733,8 @@ public class InterFacturarVenta extends javax.swing.JInternalFrame {
         }
     }
 
-    private void CargarComboEmpleado() {
-        Connection cn = Conexion.conectar();
-        String sql = "SELECT * FROM Empleado"; // Puedes ajustar esto según tu modelo de datos
-        Statement st;
-
-        try {
-            st = cn.createStatement();
-            ResultSet rs = st.executeQuery(sql);
-            jComboBox_empleado.removeAllItems();
-            jComboBox_empleado.addItem("Seleccione Empleado:");
-
-            while (rs.next()) {
-                jComboBox_empleado.addItem(rs.getString("Nombre"));
-            }
-
-            cn.close();
-
-        } catch (SQLException e) {
-            System.out.println("¡Error al cargar Empleado!");
-        }
-    }
     
-    private void ObtenerCodEmpleado() {
-        try {
-            String sql = "select * from Empleado where concat(Nombre,' ',Apellido) = '" + this.jComboBox_empleado.getSelectedItem() + "'";
-            Connection cn = Conexion.conectar();
-            Statement st;
-            st = cn.createStatement();
-            ResultSet rs = st.executeQuery(sql);
-            while (rs.next()) {
-               codEmpleado = rs.getInt("CodEmpleado");
-            }
-
-        } catch (SQLException e) {
-            System.out.println("Error al obtener cod del Empleado, " + e);
-        }
-    }
+    
+    
 
 }
