@@ -5,6 +5,7 @@ import controlador.Controlador_PDFdelaVenta;
 import controlador.Controlador_Venta;
 import java.awt.Dimension;
 import static java.awt.image.ImageObserver.WIDTH;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -13,6 +14,8 @@ import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
@@ -34,7 +37,6 @@ public class InterFacturarVenta extends javax.swing.JInternalFrame {
     private int cantidadProductoBBDD = 0;
     private double precioUnitario = 0.0;
 
-
     private int cantidad = 0;//cantidad de productos a comprar
     private double subtotal = 0.0;//cantidad por precio
 //    private double descuento = 0.0;
@@ -46,7 +48,7 @@ public class InterFacturarVenta extends javax.swing.JInternalFrame {
     private double totalPagarGeneral = 0.0;
     //cod del detalle de venta
     //fin de variables de calculos globales
-    private int auxCodDetalle=1;
+    private int auxCodDetalle = 1;
 
     public InterFacturarVenta() {
         initComponents();
@@ -56,7 +58,6 @@ public class InterFacturarVenta extends javax.swing.JInternalFrame {
         //Cargar lo Clientes en la vista - cargar productos
         this.CargarComboPacientes();
         this.CargarComboProductos();
-        
 
         this.inicializarTablaProducto();
 
@@ -360,7 +361,7 @@ public class InterFacturarVenta extends javax.swing.JInternalFrame {
                             totalPagar = (double) Math.round(totalPagar * 100) / 100;
 
                             //se crea un nuevo producto
-                            producto = new DetalleVenta(auxCodDetalle, 
+                            producto = new DetalleVenta(auxCodDetalle,
                                     1,//idCabecera
                                     codProducto,
                                     nombre,
@@ -444,54 +445,44 @@ public class InterFacturarVenta extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jTable_VentaMouseClicked
 
     private void jButton_RegistrarVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_RegistrarVentaActionPerformed
-
         Venta venta = new Venta();
         DetalleVenta detalleVenta = new DetalleVenta();
         Controlador_Venta controlVenta = new Controlador_Venta();
         String fechaActual = "";
         Date date = new Date();
         fechaActual = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(date);
-        if (!jComboBox_cliente.getSelectedItem().equals("Seleccione cliente:") 
-                ) {
+
+        if (!jComboBox_cliente.getSelectedItem().equals("Seleccione cliente:")) {
             if (listaProductos.size() > 0) {
-                //metodo para obtener el id del cliente
+                // Método para obtener el id del cliente
                 this.ObtenerCodPaciente();
-                //registrar cabecera
+                // Registrar cabecera
                 venta.setCodVenta(0);
                 venta.setCodPaciente(codPaciente);
                 venta.setTotal(Double.parseDouble(txt_total_pagar.getText()));
                 venta.setFecha(fechaActual);
+
+                // Obtener otros datos necesarios para el PDF (por ejemplo, el nombre del paciente, el DNI, el celular, etc.)
+                String nombrePaciente = "";  // Obtén el nombre del paciente de tu modelo
+                String dniPaciente = "";  // Obtén el DNI del paciente de tu modelo
+                String celularPaciente = "";  // Obtén el celular del paciente de tu modelo
+                int codEmpleado = 1;  // Reemplaza esto con el código del empleado apropiado
+
+                // Registrar la venta y generar el PDF
                 if (controlVenta.guardar(venta)) {
                     JOptionPane.showMessageDialog(null, "¡Venta Registrada!");
-                    //Generar la factura de venta
-                    Controlador_PDFdelaVenta pdf = new Controlador_PDFdelaVenta();
-                    pdf.DatosPaciente(codPaciente);
-                    pdf.generarFacturaPDF();
-                    //guardar detalle
-                    for (DetalleVenta elemento : listaProductos) {
-                        detalleVenta.setCodDetalleVenta(0);
-                        detalleVenta.setCodVenta(0);
-                        detalleVenta.setCodProducto(elemento.getCodProducto());
-                        detalleVenta.setCantidad(elemento.getCantidad());
-                        detalleVenta.setPrecioUnitario(elemento.getPrecioUnitario());
-                        detalleVenta.setSubTotal(elemento.getSubTotal());
-                        detalleVenta.setTotalPagar(elemento.getTotalPagar());
-                        if (controlVenta.guardarDetalle(detalleVenta)) {
-                            //System.out.println("Detalle de Venta Registrado");
-                            txt_subtotal.setText("0.0");
-                            txt_total_pagar.setText("0.0");
-                            txt_efectivo.setText("");
-                            txt_cambio.setText("0.0");
-                            auxCodDetalle = 1;
-                            this.CargarComboPacientes();
-                            this.RestarStockProductos(elemento.getCodProducto(), elemento.getCantidad());
-                        } else {
-                            JOptionPane.showMessageDialog(null, "¡Error al guardar detalle de venta!");
-                        }
+
+                    // Generar la factura de venta en formato PDF
+                    Controlador_PDFdelaVenta pdfVenta = new Controlador_PDFdelaVenta();
+                    pdfVenta.DatosVenta(venta, nombrePaciente, dniPaciente, celularPaciente, codEmpleado);
+                    try {
+                        pdfVenta.generarVentaPDF(listaProductos);
+                        
+                        // Resto del código para cambiar el fondo y cargar combos
+                        // ...
+                    } catch (IOException ex) {
+                        Logger.getLogger(InterFacturarVenta.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                    //vaciamos la lista
-                    listaProductos.clear();
-                    listaTablaProductos();
                 } else {
                     JOptionPane.showMessageDialog(null, "¡Error al guardar Venta!");
                 }
@@ -499,8 +490,9 @@ public class InterFacturarVenta extends javax.swing.JInternalFrame {
                 JOptionPane.showMessageDialog(null, "¡Seleccione un producto!");
             }
         } else {
-            JOptionPane.showMessageDialog(null, "¡Seleccione un cliente y un empleado!");
+            JOptionPane.showMessageDialog(null, "¡Seleccione un cliente!");
         }
+
 
     }//GEN-LAST:event_jButton_RegistrarVentaActionPerformed
 
@@ -662,7 +654,6 @@ public class InterFacturarVenta extends javax.swing.JInternalFrame {
         txt_total_pagar.setText(String.valueOf(totalPagarGeneral));
     }
 
-
     private void ObtenerCodPaciente() {
         try {
             String sql = "select * from Paciente where concat(Nombres,' ',Apellidos) = '" + this.jComboBox_cliente.getSelectedItem() + "'";
@@ -671,7 +662,7 @@ public class InterFacturarVenta extends javax.swing.JInternalFrame {
             st = cn.createStatement();
             ResultSet rs = st.executeQuery(sql);
             while (rs.next()) {
-               codPaciente = rs.getInt("CodPaciente");
+                codPaciente = rs.getInt("CodPaciente");
             }
 
         } catch (SQLException e) {
@@ -701,7 +692,7 @@ public class InterFacturarVenta extends javax.swing.JInternalFrame {
             PreparedStatement consulta = cn.prepareStatement("update Producto set Stock=? where CodProducto = '" + codProducto + "'");
             int cantidadNueva = cantidadProductosBaseDeDatos - cantidad;
             consulta.setInt(1, cantidadNueva);
-            if(consulta.executeUpdate() > 0){
+            if (consulta.executeUpdate() > 0) {
                 //System.out.println("Todo bien");
             }
             cn.close();
@@ -709,9 +700,5 @@ public class InterFacturarVenta extends javax.swing.JInternalFrame {
             System.out.println("Error al restar Stock 2, " + e);
         }
     }
-
-    
-    
-    
 
 }

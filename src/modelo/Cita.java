@@ -14,6 +14,7 @@ public class Cita {
     private Date fecha_cita;
     private int dni;
     private int celular;
+    private int cantidad;
     private String sexo;
     private String area;
     private String doctor;
@@ -31,6 +32,7 @@ public class Cita {
         this.fecha_cita = new Date();
         this.dni = 0;
         this.celular = 0;
+        this.cantidad = 1;
         this.sexo = "";
         this.hora = "";
         this.area = "";
@@ -38,7 +40,7 @@ public class Cita {
         this.servicio = "";
     }
 
-    public Cita(int codPaciente, int codDoctor, int codArea, int codServicio,
+    public Cita(int codPaciente, int codDoctor, int codArea, int codServicio, int cantidad,
             String nombre, String hora, String apellido, Date fecha_nacimiento, 
             String area, Date fecha_cita, String doctor, String servicio,
             int dni, int celular, String sexo) {
@@ -53,40 +55,40 @@ public class Cita {
         this.dni = dni;
         this.celular = celular;
         this.hora = hora;
+        this.cantidad = cantidad;
         this.sexo = sexo;
         this.area = area;
         this.doctor = doctor;
         this.servicio = servicio;
     }
 
+    public int getCantidad() {
+        return cantidad;
+    }
+    public void setCantidad(int cantidad) {
+        this.cantidad = cantidad;
+    }
     public String getHora() {
         return hora;
     }
-
     public void setHora(String hora) {
         this.hora = hora;
     }
-
     public int getCodArea() {
         return codArea;
     }
-
     public void setCodArea(int codArea) {
         this.codArea = codArea;
     }
-
     public int getCodServicio() {
         return codServicio;
     }
-
     public void setCodServicio(int codServicio) {
         this.codServicio = codServicio;
     }
-
     public int getCodDoctor() {
         return codDoctor;
     }
-
     public void setCodDoctor(int codDoctor) {
         this.codDoctor = codDoctor;
     }

@@ -57,8 +57,8 @@ public class Controlador_Venta {
         try {
             PreparedStatement consulta = cn.prepareStatement("insert into DetalleVenta values(?,?,?,?,?,?,?)");
             consulta.setInt(1, 0);//id
-            consulta.setInt(3, objeto.getCodProducto());
-            consulta.setInt(2, idCabeceraRegistrada);
+            consulta.setInt(2, objeto.getCodProducto());
+            consulta.setInt(3, idCabeceraRegistrada);
             consulta.setInt(4, objeto.getCantidad());
             consulta.setDouble(5, objeto.getPrecioUnitario());
             consulta.setDouble(6, objeto.getSubTotal());

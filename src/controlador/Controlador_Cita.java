@@ -38,28 +38,53 @@ public class Controlador_Cita {
 
         return cita;
     }
+    public boolean RegistrarCita(Cita cita) {
+    boolean respuesta = false;
+    Connection cn = Conexion.conectar();
 
-    public boolean RegistrarCita(Cita objeto) {
-        boolean respuesta = false;
-        Connection cn = Conexion.conectar();
-        try {
-            PreparedStatement consulta = cn.prepareStatement("insert into Cita values(?,?,?,?,?,?)");
-            consulta.setInt(1, 0);
-            consulta.setInt(2, objeto.getCodPaciente());
-            consulta.setInt(3, objeto.getCodDoctor());
-            consulta.setInt(4, objeto.getCodArea());
-            java.sql.Date FechaCitaSQL = new java.sql.Date(objeto.getFecha_cita().getTime());
-            consulta.setDate(5, FechaCitaSQL);
-            consulta.setString(6, objeto.getHora());
-            if (consulta.executeUpdate() > 0) {
-                respuesta = true;
+    try {
+        // Registrar la cita
+        String[] columnasCita = {"CodCita"}; // Especifica la columna que deseas obtener
+        PreparedStatement consultaCita = cn.prepareStatement("INSERT INTO Cita VALUES (?,?,?,?,?,?)", columnasCita);
+        consultaCita.setInt(1, 0); // Suponiendo que el primer campo es autoincrementable
+        consultaCita.setInt(2, cita.getCodPaciente());
+        consultaCita.setInt(3, cita.getCodDoctor());
+        consultaCita.setInt(4, cita.getCodArea());
+        java.sql.Date fechaCitaSQL = new java.sql.Date(cita.getFecha_cita().getTime());
+        consultaCita.setDate(5, fechaCitaSQL);
+        consultaCita.setString(6, cita.getHora());
+
+        // Registrar la cita en la tabla Cita
+        if (consultaCita.executeUpdate() > 0) {
+            // Obtener el último ID de la cita insertada
+            ResultSet rsCita = consultaCita.getGeneratedKeys();
+            if (rsCita.next()) {
+                int codCita = rsCita.getInt(1);
+
+                // Registrar el detalle de la cita en la tabla DetalleCita
+                String[] columnasDetalleCita = {"CodDetalleCita"}; // Especifica la columna que deseas obtener
+                PreparedStatement consultaDetalleCita = cn.prepareStatement("INSERT INTO DetalleCita VALUES (?,?,?,?)", columnasDetalleCita);
+                consultaDetalleCita.setInt(1, 0); // Suponiendo que el primer campo es autoincrementable
+                consultaDetalleCita.setInt(2, cita.getCodServicio());
+                consultaDetalleCita.setInt(3, codCita); // Usar el ID de la cita obtenido anteriormente
+                consultaDetalleCita.setInt(4,cita.getCantidad());
+
+                if (consultaDetalleCita.executeUpdate() > 0) {
+                    respuesta = true;
+                }
             }
-            cn.close();
-        }catch(SQLException e){
-            System.out.println("Error al Registar Cita: "+ e);
         }
-        return respuesta;
+
+        cn.close();
+    } catch (SQLException e) {
+        System.out.println("Error al Registrar Cita: " + e);
     }
+
+    return respuesta;
+}
+
+
+    
     
     //end
 }

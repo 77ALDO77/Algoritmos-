@@ -76,6 +76,8 @@ public class InterRegistrarCita extends javax.swing.JInternalFrame {
         jComboBox_area = new javax.swing.JComboBox<>();
         jLabel3 = new javax.swing.JLabel();
         txt_Hora = new javax.swing.JTextField();
+        snp_Cantidad = new javax.swing.JSpinner();
+        jLabel4 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
 
         setClosable(true);
@@ -159,7 +161,7 @@ public class InterRegistrarCita extends javax.swing.JInternalFrame {
         jLabel12.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel12.setText("Doctor:");
-        jPanel1.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 150, 80, 20));
+        jPanel1.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 220, 80, 20));
 
         jComboBox_Doctor.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jComboBox_Doctor.setForeground(new java.awt.Color(255, 255, 255));
@@ -169,12 +171,12 @@ public class InterRegistrarCita extends javax.swing.JInternalFrame {
                 jComboBox_DoctorActionPerformed(evt);
             }
         });
-        jPanel1.add(jComboBox_Doctor, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 180, 170, 30));
+        jPanel1.add(jComboBox_Doctor, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 240, 170, 30));
 
         jLabel13.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel13.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel13.setText("Fecha:");
-        jPanel1.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 220, 80, -1));
+        jPanel1.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 270, 80, -1));
 
         jComboBox_sexo.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jComboBox_sexo.setForeground(new java.awt.Color(255, 255, 255));
@@ -216,7 +218,7 @@ public class InterRegistrarCita extends javax.swing.JInternalFrame {
 
         jDateChooser_fecha_cita1.setDateFormatString("yyyy-MM-dd");
         jDateChooser_fecha_cita1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jPanel1.add(jDateChooser_fecha_cita1, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 240, 170, 30));
+        jPanel1.add(jDateChooser_fecha_cita1, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 290, 170, 30));
 
         jComboBox_area.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jComboBox_area.setForeground(new java.awt.Color(255, 255, 255));
@@ -239,6 +241,11 @@ public class InterRegistrarCita extends javax.swing.JInternalFrame {
             }
         });
         jPanel1.add(txt_Hora, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 300, 90, 30));
+        jPanel1.add(snp_Cantidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 190, -1, -1));
+
+        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel4.setText("Cantidad:");
+        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 160, -1, -1));
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMG/fondo-diseño.jpg"))); // NOI18N
         jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 680, 430));
@@ -303,6 +310,7 @@ public class InterRegistrarCita extends javax.swing.JInternalFrame {
         cita.setCodArea(obtenerCodArea);
         cita.setHora(txt_Hora.getText().trim());
         cita.setFecha_cita(fechaCita);
+        cita.setCantidad(Integer.parseInt(snp_Cantidad.getValue().toString()));
         if (ctlCita.RegistrarCita(cita)){
         JOptionPane.showMessageDialog(null, "Cita Registrada");
         
@@ -346,12 +354,14 @@ public class InterRegistrarCita extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JLabel jLabel_celular;
     private javax.swing.JPanel jPanel1;
+    public javax.swing.JSpinner snp_Cantidad;
     public javax.swing.JTextField txt_Hora;
     public javax.swing.JTextField txt_apellido;
     public javax.swing.JTextField txt_celular;
