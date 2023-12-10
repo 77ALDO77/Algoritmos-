@@ -312,6 +312,7 @@ public class InterRegistrarCita extends javax.swing.JInternalFrame {
         this.cargarComboDoctores();
         this.cargarComboServicio();
         this.Limpiar();
+        this.Limpiar();
         }else{
         JOptionPane.showMessageDialog(null, "Error al Registrar");}
     }
