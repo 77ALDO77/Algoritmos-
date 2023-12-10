@@ -28,7 +28,7 @@ public class Controlador_PDFdelaVenta {
         this.codEmpleado = codEmpleado;
         
     }
-    
+    // hola 
 
     public void generarVentaPDF(List<DetalleVenta> listaProductos) throws IOException {
         try {
