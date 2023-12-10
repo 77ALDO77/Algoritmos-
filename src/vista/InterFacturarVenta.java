@@ -470,7 +470,8 @@ public class InterFacturarVenta extends javax.swing.JInternalFrame {
         String fechaActual = "";
         Date date = new Date();
         fechaActual = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(date);
-        if (!jComboBox_cliente.getSelectedItem().equals("Seleccione cliente:") && !jComboBox_empleado.getSelectedItem().equals("Seleccione empleado:")) {
+        if (!jComboBox_cliente.getSelectedItem().equals("Seleccione cliente:") 
+                && !jComboBox_empleado.getSelectedItem().equals("Seleccione empleado:")) {
             if (listaProductos.size() > 0) {
                 //metodo para obtener el id del cliente
                 this.ObtenerCodPaciente();

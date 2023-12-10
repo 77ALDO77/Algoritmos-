@@ -367,47 +367,27 @@ public class InterGestionarCita extends javax.swing.JInternalFrame {
 
             // Cambiar nombres de columnas
             model.addColumn("Código");
-
             model.addColumn("Nombres");
-
             model.addColumn("Apellidos");
-
             model.addColumn("DNI");
-
             model.addColumn("Celular");
-
             model.addColumn("Consulta");
-
             model.addColumn("Doctor");
-
             model.addColumn("Área");
-
             model.addColumn("Fecha Cita");
-
             model.addColumn("F. Nacimiento");
-
             while (rs.next()) {
 
                 Object[] fila = new Object[10]; // 10 columnas
-
                 for (int i = 0; i < 10; i++) {
-
                     fila[i] = rs.getObject(i + 1);
-
                 }
-
                 model.addRow(fila);
-
             }
-
             con.close();
-
         } catch (SQLException e) {
-
             System.out.println("Error al cargar citas: " + e);
-
         }
-
     }
 
     private void limpiarCampos() {

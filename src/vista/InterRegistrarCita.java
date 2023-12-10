@@ -5,8 +5,10 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import conexion.Conexion;
 import controlador.Controlador_Cita;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.sql.ResultSet;
+import java.util.Date;
 import javax.swing.JOptionPane;
 import modelo.Cita;
 
@@ -20,6 +22,7 @@ public class InterRegistrarCita extends javax.swing.JInternalFrame {
     int obtenerCodDoctorCombo = 0;
     int obtenerCodServicio = 0;
     int obtenerCodArea = 0;
+    int obtenerCodPaciente = 0;
     
 
     /**
@@ -286,6 +289,32 @@ public class InterRegistrarCita extends javax.swing.JInternalFrame {
     servicio = jComboBox_servicio.getSelectedItem().toString().trim();
     doctor = jComboBox_Doctor.getSelectedItem().toString().trim();
     area = jComboBox_area.getSelectedItem().toString().trim();
+    if(!jComboBox_servicio.getSelectedItem().equals("Seleccione Servicio")
+            && !jComboBox_Doctor.getSelectedItem().equals("Seleccione al Doctor que lo atendera")
+            && !jComboBox_area.getSelectedItem().equals("Seleccione el Area donde sera atendido")){
+       Date fechaCita = jDateChooser_fecha_cita1.getDate();
+        this.codDoctor();
+        this.codServicio();
+        this.codArea();
+        this.codPaciente();
+        cita.setCodDoctor(obtenerCodDoctorCombo);
+        cita.setCodPaciente(obtenerCodPaciente);
+        cita.setCodServicio(obtenerCodServicio);
+        cita.setCodArea(obtenerCodArea);
+        cita.setHora(txt_Hora.getText().trim());
+        cita.setFecha_cita(fechaCita);
+        if (ctlCita.RegistrarCita(cita)){
+        JOptionPane.showMessageDialog(null, "Cita Registrada");
+        
+        txt_Hora.setBackground(Color.green);
+        jDateChooser_fecha_cita1.setBackground(Color.green);
+        this.cargarComboArea();
+        this.cargarComboDoctores();
+        this.cargarComboServicio();
+        this.Limpiar();
+        }else{
+        JOptionPane.showMessageDialog(null, "Error al Registrar");}
+    }
     
     
     
@@ -341,13 +370,10 @@ public class InterRegistrarCita extends javax.swing.JInternalFrame {
             ResultSet rs = st.executeQuery(sql);
             jComboBox_Doctor.removeAllItems();
             jComboBox_Doctor.addItem("Seleccione clasificacion:");
-
             while (rs.next()) {
                 jComboBox_Doctor.addItem(rs.getString("Nombre"));
             }
-
             cn.close();
-
         } catch (SQLException e) {
             System.out.println("¡Error al cargar doctores!");
         }
@@ -362,17 +388,13 @@ public class InterRegistrarCita extends javax.swing.JInternalFrame {
             Connection cn = Conexion.conectar();
             st = cn.createStatement();
             ResultSet rs = st.executeQuery(sql);
-
             while (rs.next()) {
                 obtenerCodDoctorCombo = rs.getInt("Codempleado");
             }
-
         } catch (SQLException e) {
             System.out.println("Error al obtener Cod Doctor");
         }
-
         return obtenerCodDoctorCombo;
-
     }
 
     private int codServicio() {
@@ -396,6 +418,27 @@ public class InterRegistrarCita extends javax.swing.JInternalFrame {
         return obtenerCodServicio;
 
     }
+    private int codPaciente() {
+
+        String sql = "select * from Paciente WHERE DNI = '" + this.txt_dni.getText()+ "'";
+        Statement st;
+
+        try {
+            Connection cn = Conexion.conectar();
+            st = cn.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+
+            while (rs.next()) {
+                obtenerCodPaciente = rs.getInt("CodPaciente");
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error al obtener Cod Servicio");
+        }
+
+        return obtenerCodPaciente;
+
+    }
 
     private void cargarComboServicio() {
         Connection cn = Conexion.conectar();
@@ -416,7 +459,7 @@ public class InterRegistrarCita extends javax.swing.JInternalFrame {
         }
     }
     
-    private int area() {
+    private int codArea() {
 
         String sql = "select * from areaatencion WHERE nombre = '" + this.jComboBox_area.getSelectedItem() + "'";
         Statement st;
