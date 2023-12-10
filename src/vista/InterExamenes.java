@@ -1,4 +1,3 @@
-
 package vista;
 
 import controlador.PdfDAO;
@@ -15,91 +14,18 @@ import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.JOptionPane;
 
-public class Examenes extends javax.swing.JPanel {
-
+public class InterExamenes extends javax.swing.JInternalFrame {
+    
     Tabla_PdfVO tpdf = new Tabla_PdfVO();
     String ruta_archivo = "";
     int id = -1;
 
-    public Examenes() {
+    public InterExamenes() {
         initComponents();
-        
         tpdf.visualizar_PdfVO(tabla);
         activa_boton(false, false, false);
         txtname.setEnabled(false);
-        
     }
-
-    public void guardar_pdf(int codigo, String nombre, File ruta) {
-        PdfDAO pa = new PdfDAO();
-        ExamenPDF exam = new ExamenPDF();
-        exam.setCodigopdf(codigo);
-        exam.setNombrepdf(nombre);
-        try {
-            byte[] pdf = new byte[(int) ruta.length()];
-            InputStream input = new FileInputStream(ruta);
-            input.read(pdf);
-            exam.setArchivopdf(pdf);
-        } catch (IOException ex) {
-            exam.setArchivopdf(null);
-            //System.out.println("Error al agregar archivo pdf "+ex.getMessage());
-        }
-        pa.Agregar_PdfExamen(exam);
-    }
-
-    public void modificar_pdf(int codigo, String nombre, File ruta) {
-        PdfDAO pa = new PdfDAO();
-        ExamenPDF exam = new ExamenPDF();
-        exam.setCodigopdf(codigo);
-        exam.setNombrepdf(nombre);
-        try {
-            byte[] pdf = new byte[(int) ruta.length()];
-            InputStream input = new FileInputStream(ruta);
-            input.read(pdf);
-            exam.setArchivopdf(pdf);
-        } catch (IOException ex) {
-            exam.setArchivopdf(null);
-            //System.out.println("Error al agregar archivo pdf "+ex.getMessage());
-        }
-        pa.Modificar_PdfVO(exam);
-    }
-
-    public void modificar_pdf(int codigo, String nombre) {
-        PdfDAO pa = new PdfDAO();
-        ExamenPDF exam = new ExamenPDF();
-        exam.setCodigopdf(codigo);
-        exam.setNombrepdf(nombre);
-        pa.Modificar_PdfVO2(exam);
-    }
-
-    public void eliminar_pdf(int codigo) {
-        PdfDAO pa = new PdfDAO();
-        ExamenPDF exam = new ExamenPDF();
-        exam.setCodigopdf(codigo);
-        pa.Eliminar_PdfVO(exam);
-    }
-
-    public void seleccionar_pdf() {
-        JFileChooser j = new JFileChooser();
-        FileNameExtensionFilter fi = new FileNameExtensionFilter("pdf", "pdf");
-        j.setFileFilter(fi);
-        int se = j.showOpenDialog(this);
-        if (se == 0) {
-            this.btnseleccionar.setText("" + j.getSelectedFile().getName());
-            ruta_archivo = j.getSelectedFile().getAbsolutePath();
-
-        } else {
-        }
-    }
-
-    public void activa_boton(boolean a, boolean b, boolean c) {
-        btnguardar.setEnabled(a);
-        btnmodificar.setEnabled(b);
-        btneliminar.setEnabled(c);
-        txtname.setText("");
-        btnseleccionar.setText("Seleccionar...");
-    }
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -110,6 +36,7 @@ public class Examenes extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         btnseleccionar = new javax.swing.JButton();
         txtname = new javax.swing.JTextField();
@@ -117,13 +44,17 @@ public class Examenes extends javax.swing.JPanel {
         jLabel2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabla = new javax.swing.JTable();
-        jPanel1 = new javax.swing.JPanel();
+        jPanel3 = new javax.swing.JPanel();
         btnnuevo = new javax.swing.JButton();
         btnguardar = new javax.swing.JButton();
         btnmodificar = new javax.swing.JButton();
         btneliminar = new javax.swing.JButton();
         btncancelar = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
+
+        setClosable(true);
+
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         btnseleccionar.setText("Seleccionar...");
         btnseleccionar.addActionListener(new java.awt.event.ActionListener() {
@@ -164,6 +95,8 @@ public class Examenes extends javax.swing.JPanel {
                 .addGap(0, 2, Short.MAX_VALUE))
         );
 
+        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 35, 690, -1));
+
         tabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null},
@@ -181,6 +114,8 @@ public class Examenes extends javax.swing.JPanel {
             }
         });
         jScrollPane1.setViewportView(tabla);
+
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 167, 610, 290));
 
         btnnuevo.setText("Nuevo");
         btnnuevo.addActionListener(new java.awt.event.ActionListener() {
@@ -217,25 +152,27 @@ public class Examenes extends javax.swing.JPanel {
             }
         });
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addGap(45, 45, 45)
                 .addComponent(btnnuevo)
-                .addGap(29, 29, 29)
+                .addGap(18, 18, 18)
                 .addComponent(btnguardar)
-                .addGap(28, 28, 28)
+                .addGap(18, 18, 18)
                 .addComponent(btnmodificar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 179, Short.MAX_VALUE)
                 .addComponent(btneliminar)
-                .addGap(27, 27, 27)
-                .addComponent(btncancelar))
+                .addGap(30, 30, 30)
+                .addComponent(btncancelar)
+                .addGap(26, 26, 26))
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnnuevo)
                     .addComponent(btnguardar)
                     .addComponent(btnmodificar)
@@ -244,30 +181,35 @@ public class Examenes extends javax.swing.JPanel {
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
+        jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 118, -1, -1));
+
         jLabel3.setFont(new java.awt.Font("Arial Black", 1, 14)); // NOI18N
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel3.setText("Guardar PDF en la base de Datos");
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 690, -1));
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jScrollPane1)
-            .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGap(0, 690, Short.MAX_VALUE)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jLabel3)
-                .addGap(14, 14, 14)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(26, 26, 26)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE))
+            .addGap(0, 484, Short.MAX_VALUE)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
         );
+
+        pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnseleccionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnseleccionarActionPerformed
@@ -355,6 +297,75 @@ public class Examenes extends javax.swing.JPanel {
         txtname.setEnabled(false);
     }//GEN-LAST:event_btncancelarActionPerformed
 
+    public void guardar_pdf(int codigo, String nombre, File ruta) {
+        PdfDAO pa = new PdfDAO();
+        ExamenPDF exam = new ExamenPDF();
+        exam.setCodigopdf(codigo);
+        exam.setNombrepdf(nombre);
+        try {
+            byte[] pdf = new byte[(int) ruta.length()];
+            InputStream input = new FileInputStream(ruta);
+            input.read(pdf);
+            exam.setArchivopdf(pdf);
+        } catch (IOException ex) {
+            exam.setArchivopdf(null);
+            //System.out.println("Error al agregar archivo pdf "+ex.getMessage());
+        }
+        pa.Agregar_PdfExamen(exam);
+    }
+    
+    public void modificar_pdf(int codigo, String nombre, File ruta) {
+        PdfDAO pa = new PdfDAO();
+        ExamenPDF exam = new ExamenPDF();
+        exam.setCodigopdf(codigo);
+        exam.setNombrepdf(nombre);
+        try {
+            byte[] pdf = new byte[(int) ruta.length()];
+            InputStream input = new FileInputStream(ruta);
+            input.read(pdf);
+            exam.setArchivopdf(pdf);
+        } catch (IOException ex) {
+            exam.setArchivopdf(null);
+            //System.out.println("Error al agregar archivo pdf "+ex.getMessage());
+        }
+        pa.Modificar_PdfVO(exam);
+    }
+    
+    public void modificar_pdf(int codigo, String nombre) {
+        PdfDAO pa = new PdfDAO();
+        ExamenPDF exam = new ExamenPDF();
+        exam.setCodigopdf(codigo);
+        exam.setNombrepdf(nombre);
+        pa.Modificar_PdfVO2(exam);
+    }
+    
+    public void eliminar_pdf(int codigo) {
+        PdfDAO pa = new PdfDAO();
+        ExamenPDF exam = new ExamenPDF();
+        exam.setCodigopdf(codigo);
+        pa.Eliminar_PdfVO(exam);
+    }
+    
+    public void seleccionar_pdf() {
+        JFileChooser j = new JFileChooser();
+        FileNameExtensionFilter fi = new FileNameExtensionFilter("pdf", "pdf");
+        j.setFileFilter(fi);
+        int se = j.showOpenDialog(this);
+        if (se == 0) {
+            this.btnseleccionar.setText("" + j.getSelectedFile().getName());
+            ruta_archivo = j.getSelectedFile().getAbsolutePath();
+
+        } else {
+        }
+    }
+    
+    public void activa_boton(boolean a, boolean b, boolean c) {
+        btnguardar.setEnabled(a);
+        btnmodificar.setEnabled(b);
+        btneliminar.setEnabled(c);
+        txtname.setText("");
+        btnseleccionar.setText("Seleccionar...");
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btncancelar;
@@ -368,6 +379,7 @@ public class Examenes extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tabla;
     private javax.swing.JTextField txtname;

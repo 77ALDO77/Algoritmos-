@@ -499,7 +499,7 @@ public class FrmMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem_gestionar_compraActionPerformed
 
     private void jMenuItem_examenpdfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_examenpdfActionPerformed
-        Examenes Exam = new Examenes();
+        InterExamenes Exam = new InterExamenes();
         jDesktopPane_menu.add(Exam);
         Exam.setVisible(true);
     }//GEN-LAST:event_jMenuItem_examenpdfActionPerformed

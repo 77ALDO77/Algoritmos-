@@ -135,9 +135,7 @@ public class InterFacturarVenta extends javax.swing.JInternalFrame {
         txt_cambio = new javax.swing.JTextField();
         jButton_calcular_cambio = new javax.swing.JButton();
         jButton_RegistrarVenta = new javax.swing.JButton();
-        jLabel11 = new javax.swing.JLabel();
         jComboBox_producto = new javax.swing.JComboBox<>();
-        jComboBox_empleado = new javax.swing.JComboBox<>();
         jLabel12 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
         jLabel_wallpaper = new javax.swing.JLabel();
@@ -285,11 +283,6 @@ public class InterFacturarVenta extends javax.swing.JInternalFrame {
         });
         getContentPane().add(jButton_RegistrarVenta, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 460, 170, 100));
 
-        jLabel11.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel11.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel11.setText("Empleado");
-        getContentPane().add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 110, -1, -1));
-
         jComboBox_producto.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jComboBox_producto.setForeground(new java.awt.Color(255, 255, 255));
         jComboBox_producto.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione producto:", "Item 2", "Item 3", "Item 4" }));
@@ -299,16 +292,6 @@ public class InterFacturarVenta extends javax.swing.JInternalFrame {
             }
         });
         getContentPane().add(jComboBox_producto, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 80, 170, -1));
-
-        jComboBox_empleado.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jComboBox_empleado.setForeground(new java.awt.Color(255, 255, 255));
-        jComboBox_empleado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione producto:", "Item 2", "Item 3", "Item 4" }));
-        jComboBox_empleado.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox_empleadoActionPerformed(evt);
-            }
-        });
-        getContentPane().add(jComboBox_empleado, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 110, 170, -1));
 
         jLabel12.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel12.setForeground(new java.awt.Color(255, 255, 255));
@@ -525,10 +508,6 @@ public class InterFacturarVenta extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txt_subtotalActionPerformed
 
-    private void jComboBox_empleadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox_empleadoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox_empleadoActionPerformed
-
     private void jComboBox_productoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox_productoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jComboBox_productoActionPerformed
@@ -544,11 +523,9 @@ public class InterFacturarVenta extends javax.swing.JInternalFrame {
     private javax.swing.JButton jButton_busca_cliente;
     private javax.swing.JButton jButton_calcular_cambio;
     private javax.swing.JComboBox<String> jComboBox_cliente;
-    private javax.swing.JComboBox<String> jComboBox_empleado;
     private javax.swing.JComboBox<String> jComboBox_producto;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;

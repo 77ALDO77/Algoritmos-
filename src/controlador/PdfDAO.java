@@ -45,7 +45,7 @@ public class PdfDAO {
     /*Metodo agregar*/
     public void Agregar_PdfExamen(ExamenPDF Examen) {
         Connection cn = Conexion.conectar();
-        String sql = "INSERT INTO ExamenPDF (CodPdf, Nombre, Archivo) VALUES(?, ?, ?,?);";
+        String sql = "INSERT INTO ExamenPDF (CodPdf, Nombre, Archivo) VALUES(?, ?, ?);";
         PreparedStatement ps = null;
         try {
             ps = cn.prepareStatement(sql);
