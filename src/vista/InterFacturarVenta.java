@@ -462,22 +462,18 @@ public class InterFacturarVenta extends javax.swing.JInternalFrame {
                 venta.setTotal(Double.parseDouble(txt_total_pagar.getText()));
                 venta.setFecha(fechaActual);
 
-                // Obtener otros datos necesarios para el PDF (por ejemplo, el nombre del paciente, el DNI, el celular, etc.)
-                String nombrePaciente = "";  // Obtén el nombre del paciente de tu modelo
-                String dniPaciente = "";  // Obtén el DNI del paciente de tu modelo
-                String celularPaciente = "";  // Obtén el celular del paciente de tu modelo
-                int codEmpleado = 1;  // Reemplaza esto con el código del empleado apropiado
-
                 // Registrar la venta y generar el PDF
                 if (controlVenta.guardar(venta)) {
                     JOptionPane.showMessageDialog(null, "¡Venta Registrada!");
 
                     // Generar la factura de venta en formato PDF
                     Controlador_PDFdelaVenta pdfVenta = new Controlador_PDFdelaVenta();
-                    pdfVenta.DatosVenta(venta, nombrePaciente, dniPaciente, celularPaciente, codEmpleado);
+                    
+
                     try {
+                        pdfVenta.DatosPaciente(codPaciente);
                         pdfVenta.generarVentaPDF(listaProductos);
-                        
+                        this.CargarComboPacientes();
                         // Resto del código para cambiar el fondo y cargar combos
                         // ...
                     } catch (IOException ex) {

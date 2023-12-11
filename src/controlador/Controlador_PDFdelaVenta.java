@@ -1,8 +1,10 @@
 package controlador;
 
 import com.itextpdf.text.*;
+import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+import conexion.Conexion;
 import java.awt.Desktop;
 import java.io.File;
 import modelo.Venta;
@@ -10,25 +12,42 @@ import modelo.DetalleVenta;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import vista.InterFacturarVenta;
 
 public class Controlador_PDFdelaVenta {
     private String nombrePaciente;
     private String dniPaciente;
     private String celularPaciente;
-    private int codEmpleado;
     private String fechaActual = "";
 
-    public void DatosVenta(Venta venta, String nombrePaciente, String dniPaciente, String celularPaciente, int codEmpleado) {
-        this.nombrePaciente = nombrePaciente;
-        this.dniPaciente = dniPaciente;
-        this.celularPaciente = celularPaciente;
-        this.codEmpleado = codEmpleado;
-        
-    }
     // hola 
+    
+    public void DatosPaciente(int codPaciente) {
+        Connection cn = Conexion.conectar();
+        String sql = "select * from Paciente where CodPaciente = '" + codPaciente + "'";
+        Statement st;
+        try {
+
+            st = cn.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            while (rs.next()) {
+                nombrePaciente = rs.getString("Nombres") + " " + rs.getString("Apellidos");
+                dniPaciente = rs.getString("DNI");
+                celularPaciente = rs.getString("Celular");
+            }
+            cn.close();
+        } catch (SQLException e) {
+            System.out.println("Error al obtener datos del cliente: " + e);
+        }
+    }
+
 
     public void generarVentaPDF(List<DetalleVenta> listaProductos) throws IOException {
         try {
@@ -82,6 +101,31 @@ public class Controlador_PDFdelaVenta {
             Encabezado.addCell("RUC: " + ruc + "\nNOMBRE: " + nombre + "\nCELULAR: " + celular + "\nDIRECCION: " + direccion + "\nRAZON SOCIAL: " + razon);
             Encabezado.addCell(fecha);
             doc.add(Encabezado);
+            
+            
+             //CUERPO
+            Paragraph paciente = new Paragraph();
+            paciente.add(Chunk.NEWLINE);//nueva linea
+            paciente.add("Datos del Paciente: " + "\n\n");
+            doc.add(paciente);
+            
+            
+            // Agregar datos del paciente al PDF
+        Paragraph datosPaciente = new Paragraph();
+        datosPaciente.add(Chunk.NEWLINE);
+        datosPaciente.add("Nombre: " + nombrePaciente);
+        datosPaciente.add(Chunk.NEWLINE);
+        datosPaciente.add("DNI: " + dniPaciente);
+        datosPaciente.add(Chunk.NEWLINE);
+        datosPaciente.add("Celular: " + celularPaciente);
+        doc.add(datosPaciente);
+            
+            //ESPACIO EN BLANCO
+            Paragraph espacio = new Paragraph();
+            espacio.add(Chunk.NEWLINE);
+            espacio.add("");
+            espacio.setAlignment(Element.ALIGN_CENTER);
+            doc.add(espacio);
 
 
             // Ejemplo: Agregar detalles de productos a una tabla
@@ -100,6 +144,29 @@ public class Controlador_PDFdelaVenta {
             }
 
             doc.add(tablaProducto);
+            
+            //Total pagar
+            Paragraph info = new Paragraph();
+            info.add(Chunk.NEWLINE);
+            info.add("Total a pagar: " + InterFacturarVenta.txt_total_pagar.getText());
+            info.setAlignment(Element.ALIGN_RIGHT);
+            doc.add(info);
+            
+            //Firma
+           Paragraph firma = new Paragraph();
+           firma.add(Chunk.NEWLINE);
+           firma.add("Cancelacion y firma\n\n");
+           firma.add("_______________________");
+           firma.setAlignment(Element.ALIGN_CENTER);
+           doc.add(firma);
+           
+            //Mensaje
+           Paragraph mensaje = new Paragraph();
+           mensaje.add(Chunk.NEWLINE);
+           mensaje.add("¡Gracias por su compra!");
+           mensaje.setAlignment(Element.ALIGN_CENTER);
+           doc.add(mensaje);
+           
 
             // Resto del contenido del PDF
             // ...
