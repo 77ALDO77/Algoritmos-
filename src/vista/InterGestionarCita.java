@@ -477,34 +477,35 @@ public class InterGestionarCita extends javax.swing.JInternalFrame {
         }
     }
     private void buscarPorCodCita(String CodBuscado) {
-        if (!CodBuscado.isEmpty()) {
-            try {
-                int dni = Integer.parseInt(CodBuscado);
-                Controlador_Cita ctlCita = new Controlador_Cita();
-                Cita cita = ctlCita.buscarPorCodCita(dni);
+    if (!CodBuscado.isEmpty()) {
+        try {
+            int codCita = Integer.parseInt(CodBuscado);
+            Controlador_Cita ctlCita = new Controlador_Cita();
+            Cita cita = ctlCita.buscarPorCodCita(codCita);
 
-                if (cita != null) {
-                    txt_nombre.setText(cita.getNombre());
-                    txt_apellido.setText(cita.getApellido());
-                    jDateChooser_fecha_nacimiento.setDate(cita.getFecha_nacimiento());
-                    jDateChooser_fecha_Cita.setDate(cita.getFecha_cita());
-                    txt_dni.setText(String.valueOf(cita.getDni()));
-                    txt_celular.setText(String.valueOf(cita.getCelular()));
-                    jComboBox_sexo.setSelectedItem(cita.getSexo());
-                    jComboBox_TipoConsulta.setSelectedItem(cita.getServicio());
-                    jComboBox_Area.setSelectedItem(cita.getArea());
-                    jComboBox_Doctor.setSelectedItem(cita.getDoctor());
-                    codPaciente = cita.getCodPaciente();
-                } else {
-                    JOptionPane.showMessageDialog(null, "Paciente no encontrado para el DNI ingresado.");
-                }
-            } catch (NumberFormatException e) {
-                JOptionPane.showMessageDialog(null, "Ingrese un número de DNI válido para buscar.");
+            if (cita != null) {
+                txt_nombre.setText(cita.getNombre());
+                txt_apellido.setText(cita.getApellido());
+                jDateChooser_fecha_nacimiento.setDate(cita.getFecha_nacimiento());
+                jDateChooser_fecha_Cita.setDate(cita.getFecha_cita());
+                txt_dni.setText(String.valueOf(cita.getDni()));
+                txt_celular.setText(String.valueOf(cita.getCelular()));
+                jComboBox_sexo.setSelectedItem(cita.getSexo());
+                // Asegúrate de tener métodos getter adecuados para Servicio, Area y Doctor
+                jComboBox_TipoConsulta.setSelectedItem(cita.getServicio());
+                jComboBox_Area.setSelectedItem(cita.getArea());
+                jComboBox_Doctor.setSelectedItem(cita.getDoctor());
+                codPaciente = cita.getCodPaciente();
+            } else {
+                JOptionPane.showMessageDialog(null, "Cita no encontrada para el código ingresado.");
             }
-        } else {
-            JOptionPane.showMessageDialog(null, "Ingrese un número de DNI válido para buscar.");
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Ingrese un número de código de cita válido para buscar.");
         }
+    } else {
+        JOptionPane.showMessageDialog(null, "Ingrese un número de código de cita válido para buscar.");
     }
+}
 
     private void CargarComboSexo() {
     jComboBox_sexo.removeAllItems();

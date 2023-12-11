@@ -8,6 +8,7 @@ public class Cita {
     private int codDoctor;
     private int codServicio;
     private int codArea;
+    private int codCita;
     private String nombre;
     private String apellido;
     private Date fecha_nacimiento;
@@ -25,6 +26,7 @@ public class Cita {
         this.codPaciente = 0;
         this.codDoctor = 0;
         this.codArea = 0;
+        this.codCita = 0;
         this.codServicio = 0;
         this.nombre = "";
         this.apellido = "";
@@ -40,12 +42,13 @@ public class Cita {
         this.servicio = "";
     }
 
-    public Cita(int codPaciente, int codDoctor, int codArea, int codServicio, int cantidad,
+    public Cita(int codPaciente, int codDoctor, int codCita, int codArea, int codServicio, int cantidad,
             String nombre, String hora, String apellido, Date fecha_nacimiento, 
             String area, Date fecha_cita, String doctor, String servicio,
             int dni, int celular, String sexo) {
         this.codPaciente = codPaciente;
         this.codDoctor = codDoctor;
+        this.codDoctor = codCita;
         this.codServicio = codServicio;
         this.codArea = codServicio;
         this.nombre = nombre;
@@ -60,6 +63,14 @@ public class Cita {
         this.area = area;
         this.doctor = doctor;
         this.servicio = servicio;
+    }
+
+    public int getCodCita() {
+        return codCita;
+    }
+
+    public void setCodCita(int codCita) {
+        this.codCita = codCita;
     }
 
     public int getCantidad() {
@@ -179,6 +190,18 @@ public class Cita {
 
     public void setFecha_cita(Date fecha_cita) {
         this.fecha_cita = fecha_cita;
+    }
+
+    public void setCodPaciente(Cita paciente) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    public void getCodDoctor(Cita empleado) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    public void setCodServicio(Cita area) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
 }

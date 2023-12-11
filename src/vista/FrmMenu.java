@@ -60,7 +60,6 @@ public class FrmMenu extends javax.swing.JFrame {
         jMenu3 = new javax.swing.JMenu();
         jMenuItem_registrar_cita = new javax.swing.JMenuItem();
         jMenuItem_gestionar_cita = new javax.swing.JMenuItem();
-        jMenuItem_facturar_cita = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
         jMenuItem_registar_servicios = new javax.swing.JMenuItem();
         jMenuItem_clasificacion = new javax.swing.JMenuItem();
@@ -76,7 +75,6 @@ public class FrmMenu extends javax.swing.JFrame {
         jMenuItem_gestionar_proveedor = new javax.swing.JMenuItem();
         jMenu8 = new javax.swing.JMenu();
         jMenuItem_Compra = new javax.swing.JMenuItem();
-        jMenuItem_gestionar_compra = new javax.swing.JMenuItem();
         jMenu9 = new javax.swing.JMenu();
         jMenuItem_cerrar_sesion = new javax.swing.JMenuItem();
 
@@ -193,15 +191,6 @@ public class FrmMenu extends javax.swing.JFrame {
             }
         });
         jMenu3.add(jMenuItem_gestionar_cita);
-
-        jMenuItem_facturar_cita.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jMenuItem_facturar_cita.setText("Registro Pagó");
-        jMenuItem_facturar_cita.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem_facturar_citaActionPerformed(evt);
-            }
-        });
-        jMenu3.add(jMenuItem_facturar_cita);
 
         jMenuBar1.add(jMenu3);
 
@@ -341,15 +330,6 @@ public class FrmMenu extends javax.swing.JFrame {
         });
         jMenu8.add(jMenuItem_Compra);
 
-        jMenuItem_gestionar_compra.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jMenuItem_gestionar_compra.setText("Gestionar Compra");
-        jMenuItem_gestionar_compra.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem_gestionar_compraActionPerformed(evt);
-            }
-        });
-        jMenu8.add(jMenuItem_gestionar_compra);
-
         jMenuBar1.add(jMenu8);
 
         jMenu9.setBackground(new java.awt.Color(102, 153, 255));
@@ -458,12 +438,6 @@ public class FrmMenu extends javax.swing.JFrame {
         System.exit(0);
     }//GEN-LAST:event_jMenuItem_cerrar_sesionActionPerformed
 
-    private void jMenuItem_facturar_citaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_facturar_citaActionPerformed
-        InterRegistroPago interRegistroPago = new InterRegistroPago();
-        jDesktopPane_menu.add(interRegistroPago);
-        interRegistroPago.setVisible(true);
-    }//GEN-LAST:event_jMenuItem_facturar_citaActionPerformed
-
     private void jMenuItem_registrar_areaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_registrar_areaActionPerformed
         InterRegistrarArea interRegistrarArea = new InterRegistrarArea();
         jDesktopPane_menu.add(interRegistrarArea);
@@ -493,10 +467,6 @@ public class FrmMenu extends javax.swing.JFrame {
         jDesktopPane_menu.add(interGestionarProveedor);
         interGestionarProveedor.setVisible(true);
     }//GEN-LAST:event_jMenuItem_gestionar_proveedorActionPerformed
-
-    private void jMenuItem_gestionar_compraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_gestionar_compraActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jMenuItem_gestionar_compraActionPerformed
 
     private void jMenuItem_examenpdfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_examenpdfActionPerformed
         InterExamenes Exam = new InterExamenes();
@@ -557,11 +527,9 @@ public class FrmMenu extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem_clasificacion;
     private javax.swing.JMenuItem jMenuItem_especialidad;
     private javax.swing.JMenuItem jMenuItem_examenpdf;
-    private javax.swing.JMenuItem jMenuItem_facturar_cita;
     private javax.swing.JMenuItem jMenuItem_ficha_paciente;
     private javax.swing.JMenuItem jMenuItem_gestionarArea;
     private javax.swing.JMenuItem jMenuItem_gestionar_cita;
-    private javax.swing.JMenuItem jMenuItem_gestionar_compra;
     private javax.swing.JMenuItem jMenuItem_gestionar_empleado;
     private javax.swing.JMenuItem jMenuItem_gestionar_paciente;
     private javax.swing.JMenuItem jMenuItem_gestionar_producto;

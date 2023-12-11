@@ -1,47 +1,65 @@
 package controlador;
 
 import conexion.Conexion;
+import conexion.sql;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import modelo.Cita;
+import modelo.Paciente;
 
 public class Controlador_Cita {
-    
+
     public Cita buscarPorCodCita(int codCita) {
-    Connection cn = Conexion.conectar();
-    Cita cita = null;
+        Connection cn = Conexion.conectar();
+        Cita cita = null;
 
-    try {
-        PreparedStatement consulta = cn.prepareStatement("SELECT * FROM Cita WHERE CodCita = ?");
-        consulta.setInt(1, codCita);
+        try {
+            PreparedStatement consulta = cn.prepareStatement(
+                    "SELECT c.CodCita, p.Nombres AS PacienteNombres, p.Apellidos AS PacienteApellidos, "
+                    + "p.DNI AS PacienteDNI, p.Celular AS PacienteCelular, "
+                    + "p.FechaNacimiento AS PacienteFechaNacimiento, "
+                    + "concat(e.Nombre, ' ', e.Apellido) AS EmpleadoNombre, "
+                    + "a.Nombre AS AreaNombre, c.Fecha AS FechaCita, c.Hora "
+                    + "FROM Cita c "
+                    + "INNER JOIN Paciente p ON c.CodPaciente = p.CodPaciente "
+                    + "INNER JOIN Empleado e ON c.CodEmpleado = e.CodEmpleado "
+                    + "INNER JOIN AreaAtencion a ON c.CodArea = a.CodArea "
+                    + "WHERE c.CodCita = ?"
+            );
 
-        ResultSet resultado = consulta.executeQuery();
+            consulta.setInt(1, codCita);
 
-        if (resultado.next()) {
-            // Se encontró una cita, crea un objeto Cita y establece sus propiedades
-            cita = new Cita();
-            cita.setCodPaciente(resultado.getInt("CodPaciente"));
-            // Asegúrate de establecer otras propiedades según tu estructura de base de datos
-            cita.setNombre(resultado.getString("Nombres"));
-            cita.setApellido(resultado.getString("Apellidos"));
-            cita.setFecha_nacimiento(resultado.getDate("FechaNacimiento"));
-            cita.setDni(resultado.getInt("DNI"));
-            cita.setCelular(resultado.getInt("Celular"));
-            cita.setSexo(resultado.getString("Sexo"));
-            // Agrega más propiedades según sea necesario
+            ResultSet resultado = consulta.executeQuery();
 
+            if (resultado.next()) {
+                cita = new Cita();
+                cita.setCodCita(resultado.getInt("CodCita"));
+                cita.setNombre(resultado.getString("PacienteNombres"));
+                cita.setApellido(resultado.getString("PacienteApellidos"));
+                cita.setFecha_nacimiento(resultado.getDate("PacienteFechaNacimiento"));
+                cita.setFecha_cita(resultado.getDate("FechaCita"));
+                cita.setDni(resultado.getInt("PacienteDNI"));
+                cita.setCelular(resultado.getInt("PacienteCelular"));
+                cita.setHora(resultado.getString("Hora"));
+                
+                //cita.setCodDoctor(resultado.getInt("CodEmpleado"));
+                //cita.setCodArea(resultado.getInt("CodArea"));
+                //cita.setNombre(resultado.getString("PacienteNombres"));
+                
+                //cita.setNombre(resultado.getString("EmpleadoNombre"));
+                //cita.setApellido(resultado.getString("EmpleadoApellido"));
+                
+            }
+
+            cn.close();
+        } catch (SQLException e) {
+            System.out.println("Error al buscar Cita por Código: " + e);
         }
 
-        cn.close();
-    } catch (SQLException e) {
-        System.out.println("Error al buscar Cita por Código: " + e);
+        return cita;
     }
-
-    return cita;
-}
-
 
     public Cita buscarPorDNI(int dni) {
         Connection cn = Conexion.conectar();
@@ -72,6 +90,7 @@ public class Controlador_Cita {
 
         return cita;
     }
+
     public boolean RegistrarCita(Cita cita) {
         boolean respuesta = false;
         Connection cn = Conexion.conectar();
