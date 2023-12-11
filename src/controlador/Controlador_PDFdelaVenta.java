@@ -76,7 +76,7 @@ public class Controlador_PDFdelaVenta {
             // ...
             //agregar celdas
             
-             Image img = Image.getInstance("src/IMG/019-factura.png");
+             Image img = Image.getInstance("src/IMG/logo.png");
             Paragraph fecha = new Paragraph();
             Font negrita = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.BOLD, BaseColor.BLUE);
             fecha.add(Chunk.NEWLINE); //agregar nueva linea

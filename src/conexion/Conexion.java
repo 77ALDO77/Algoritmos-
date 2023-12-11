@@ -11,7 +11,7 @@ public class Conexion {
         try {
             String url = "jdbc:mysql://localhost:3306/PrinceDent2";
             String usuario = "root";
-            String contraseña = "4546";
+            String contraseña = "";
             Connection cn = DriverManager.getConnection(url, usuario, contraseña);
             return cn;
         } catch (SQLException e) {
