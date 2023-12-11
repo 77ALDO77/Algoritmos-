@@ -72,7 +72,7 @@ public class InterRegistrarCita extends javax.swing.JInternalFrame {
         jLabel11 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
         jDateChooser_fecha_nacimiento = new com.toedter.calendar.JDateChooser();
-        jDateChooser_fecha_cita1 = new com.toedter.calendar.JDateChooser();
+        jDateChooser_fecha_cita = new com.toedter.calendar.JDateChooser();
         jComboBox_area = new javax.swing.JComboBox<>();
         jLabel3 = new javax.swing.JLabel();
         txt_Hora = new javax.swing.JTextField();
@@ -216,9 +216,9 @@ public class InterRegistrarCita extends javax.swing.JInternalFrame {
         jDateChooser_fecha_nacimiento.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jPanel1.add(jDateChooser_fecha_nacimiento, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 300, 170, -1));
 
-        jDateChooser_fecha_cita1.setDateFormatString("yyyy-MM-dd");
-        jDateChooser_fecha_cita1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jPanel1.add(jDateChooser_fecha_cita1, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 290, 170, 30));
+        jDateChooser_fecha_cita.setDateFormatString("yyyy-MM-dd");
+        jDateChooser_fecha_cita.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jPanel1.add(jDateChooser_fecha_cita, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 290, 170, 30));
 
         jComboBox_area.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jComboBox_area.setForeground(new java.awt.Color(255, 255, 255));
@@ -299,7 +299,7 @@ public class InterRegistrarCita extends javax.swing.JInternalFrame {
     if(!jComboBox_servicio.getSelectedItem().equals("Seleccione Servicio")
             && !jComboBox_Doctor.getSelectedItem().equals("Seleccione al Doctor que lo atendera")
             && !jComboBox_area.getSelectedItem().equals("Seleccione el Area donde sera atendido")){
-       Date fechaCita = jDateChooser_fecha_cita1.getDate();
+       Date fechaCita = jDateChooser_fecha_cita.getDate();
         this.codDoctor();
         this.codServicio();
         this.codArea();
@@ -315,7 +315,7 @@ public class InterRegistrarCita extends javax.swing.JInternalFrame {
         JOptionPane.showMessageDialog(null, "Cita Registrada");
         
         txt_Hora.setBackground(Color.green);
-        jDateChooser_fecha_cita1.setBackground(Color.green);
+        jDateChooser_fecha_cita.setBackground(Color.green);
         this.cargarComboArea();
         this.cargarComboDoctores();
         this.cargarComboServicio();
@@ -344,7 +344,7 @@ public class InterRegistrarCita extends javax.swing.JInternalFrame {
     public javax.swing.JComboBox<String> jComboBox_area;
     public javax.swing.JComboBox<String> jComboBox_servicio;
     public javax.swing.JComboBox<String> jComboBox_sexo;
-    public com.toedter.calendar.JDateChooser jDateChooser_fecha_cita1;
+    public com.toedter.calendar.JDateChooser jDateChooser_fecha_cita;
     public com.toedter.calendar.JDateChooser jDateChooser_fecha_nacimiento;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -546,6 +546,7 @@ public class InterRegistrarCita extends javax.swing.JInternalFrame {
         txt_nombre.setText("");
         txt_apellido.setText("");
         jDateChooser_fecha_nacimiento.setDate(null);
+        jDateChooser_fecha_cita.setDate(null);
         txt_dni.setText("");
         txt_celular.setText("");
         jComboBox_sexo.setSelectedItem("Seleccione sexo:");

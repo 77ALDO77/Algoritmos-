@@ -273,8 +273,6 @@ public class InterGestionarPaciente extends javax.swing.JInternalFrame {
         } else {
             JOptionPane.showMessageDialog(null, "Ingrese un número de DNI válido para buscar.");
         }
-
-
     }//GEN-LAST:event_jButton_buscarActionPerformed
 
     private void txt_dniBuscadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_dniBuscadoActionPerformed

@@ -1,13 +1,18 @@
 package vista;
 
 import conexion.Conexion;
+import controlador.Controlador_Cita;
+
 import java.awt.Dimension;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import modelo.Cita;
+
 
 /**
  *
@@ -16,11 +21,18 @@ import javax.swing.table.DefaultTableModel;
 public class InterGestionarCita extends javax.swing.JInternalFrame {
 
     private int CodCita;
+    private int codPaciente;
 
     public InterGestionarCita() {
         initComponents();
-        this.setSize(new Dimension(900, 547));
+        this.setSize(new Dimension(1080, 670));
         this.setTitle("Gestionar Cita");
+        //cargar tabla
+        this.CargaTablaCitas();
+        this.cargarComboDoctores();
+        this.cargarComboServicio();
+        this.cargarComboArea();
+        this.CargarComboSexo();
         this.repaint();
 
     }
@@ -60,8 +72,8 @@ public class InterGestionarCita extends javax.swing.JInternalFrame {
         jLabel13 = new javax.swing.JLabel();
         jDateChooser_fecha_Cita = new com.toedter.calendar.JDateChooser();
         jLabel14 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jTextField1 = new javax.swing.JTextField();
+        jButton1_buscarCita = new javax.swing.JButton();
+        jTextField1_CodCita = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         jComboBox_sexo = new javax.swing.JComboBox<>();
         jDateChooser_fecha_nacimiento = new com.toedter.calendar.JDateChooser();
@@ -91,9 +103,9 @@ public class InterGestionarCita extends javax.swing.JInternalFrame {
         ));
         jScrollPane1.setViewportView(jTable_citas);
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 710, 250));
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 870, 330));
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 730, 270));
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, 900, 350));
 
         jPanel2.setBackground(new java.awt.Color(153, 153, 255));
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -119,7 +131,7 @@ public class InterGestionarCita extends javax.swing.JInternalFrame {
         });
         jPanel2.add(jButton_eliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 40, 90, -1));
 
-        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 50, 130, 270));
+        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(920, 40, 130, 270));
 
         jPanel3.setBackground(new java.awt.Color(153, 153, 255));
         jPanel3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -161,7 +173,7 @@ public class InterGestionarCita extends javax.swing.JInternalFrame {
         jLabel7.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel7.setText("Área:");
-        jPanel3.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 110, 90, -1));
+        jPanel3.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 110, 90, -1));
 
         txt_apellido.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jPanel3.add(txt_apellido, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 80, 170, -1));
@@ -179,7 +191,7 @@ public class InterGestionarCita extends javax.swing.JInternalFrame {
                 jComboBox_AreaActionPerformed(evt);
             }
         });
-        jPanel3.add(jComboBox_Area, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 140, 170, -1));
+        jPanel3.add(jComboBox_Area, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 130, 170, -1));
 
         jLabel10.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -194,7 +206,7 @@ public class InterGestionarCita extends javax.swing.JInternalFrame {
                 jComboBox_TipoConsultaActionPerformed(evt);
             }
         });
-        jPanel3.add(jComboBox_TipoConsulta, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 140, 140, -1));
+        jPanel3.add(jComboBox_TipoConsulta, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 130, 140, -1));
 
         jLabel12.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -209,7 +221,7 @@ public class InterGestionarCita extends javax.swing.JInternalFrame {
                 jComboBox_DoctorActionPerformed(evt);
             }
         });
-        jPanel3.add(jComboBox_Doctor, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 140, 130, 20));
+        jPanel3.add(jComboBox_Doctor, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 130, 130, 20));
 
         jLabel13.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel13.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -218,28 +230,28 @@ public class InterGestionarCita extends javax.swing.JInternalFrame {
 
         jDateChooser_fecha_Cita.setDateFormatString("yyyy-MM-dd");
         jDateChooser_fecha_Cita.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jPanel3.add(jDateChooser_fecha_Cita, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 140, 160, -1));
+        jPanel3.add(jDateChooser_fecha_Cita, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 130, 160, -1));
 
         jLabel14.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel14.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel14.setText("Fecha:");
         jPanel3.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 110, 60, 20));
 
-        jButton1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jButton1.setText("Buscar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        jButton1_buscarCita.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jButton1_buscarCita.setText("Buscar");
+        jButton1_buscarCita.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                jButton1_buscarCitaActionPerformed(evt);
             }
         });
-        jPanel3.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 10, -1, -1));
+        jPanel3.add(jButton1_buscarCita, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 10, -1, -1));
 
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        jTextField1_CodCita.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                jTextField1_CodCitaActionPerformed(evt);
             }
         });
-        jPanel3.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 10, 300, -1));
+        jPanel3.add(jTextField1_CodCita, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 10, 300, -1));
 
         jLabel8.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -259,14 +271,14 @@ public class InterGestionarCita extends javax.swing.JInternalFrame {
         jDateChooser_fecha_nacimiento.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jPanel3.add(jDateChooser_fecha_nacimiento, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 50, 170, -1));
 
-        getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 330, 870, 180));
+        getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 420, 870, 180));
 
         jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMG/fondo-diseño.jpg"))); // NOI18N
-        getContentPane().add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 880, 520));
+        getContentPane().add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1060, 630));
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton_actualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_actualizarActionPerformed
-        
+
 
     }//GEN-LAST:event_jButton_actualizarActionPerformed
 
@@ -290,13 +302,22 @@ public class InterGestionarCita extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jComboBox_DoctorActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void jButton1_buscarCitaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1_buscarCitaActionPerformed
+        
+        // Obtener el valor del campo de texto del DNI
+        String CodBuscado = jTextField1_CodCita.getText().trim();
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+        if (!CodBuscado.isEmpty()) {
+            // Llamar a un método que busca al paciente por su DNI
+            buscarPorCodCita(CodBuscado);
+        } else {
+            JOptionPane.showMessageDialog(null, "Ingrese un número de Codigo de Cita válido para buscar.");
+        }
+    }//GEN-LAST:event_jButton1_buscarCitaActionPerformed
+
+    private void jTextField1_CodCitaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1_CodCitaActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_jTextField1_CodCitaActionPerformed
 
     private void jComboBox_sexoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox_sexoActionPerformed
         // TODO add your handling code here:
@@ -304,7 +325,7 @@ public class InterGestionarCita extends javax.swing.JInternalFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    public javax.swing.JButton jButton1;
+    public javax.swing.JButton jButton1_buscarCita;
     public javax.swing.JButton jButton_actualizar;
     public javax.swing.JButton jButton_eliminar;
     public javax.swing.JComboBox<String> jComboBox_Area;
@@ -331,25 +352,30 @@ public class InterGestionarCita extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel3;
     public static javax.swing.JScrollPane jScrollPane1;
     public static javax.swing.JTable jTable_citas;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField1_CodCita;
     private javax.swing.JTextField txt_apellido;
     private javax.swing.JTextField txt_celular;
     private javax.swing.JTextField txt_dni;
     private javax.swing.JTextField txt_nombre;
     // End of variables declaration//GEN-END:variables
 
-    private void CargarTablaCitas() {
+    
+
+   
+
+    private void CargaTablaCitas() {
         Connection con = Conexion.conectar();
 
         DefaultTableModel model = new DefaultTableModel();
 
         String sql = "SELECT c.CodCita, p.Nombres, p.Apellidos, p.DNI, p.Celular, "
                 + "s.Descripcion AS TipoConsulta, concat(e.Nombre, ' ', e.Apellido) AS Doctor, "
-                + "a.Nombre AS Area, c.Fecha AS FechaCita, p.FechaNacimiento "
+                + "a.Nombre AS Area, c.Fecha AS FechaCita, c.Hora "
                 + "FROM Cita c "
                 + "INNER JOIN Paciente p ON c.CodPaciente = p.CodPaciente "
                 + "INNER JOIN Empleado e ON c.CodEmpleado = e.CodEmpleado "
-                + "INNER JOIN Servicio s ON c.CodServicio = s.CodServicio "
+                + "INNER JOIN DetalleCita dc ON c.CodCita = dc.CodCita "
+                + "INNER JOIN Servicio s ON dc.CodServicio = s.CodServicio "
                 + "INNER JOIN AreaAtencion a ON c.CodArea = a.CodArea";
 
         Statement st;
@@ -375,7 +401,8 @@ public class InterGestionarCita extends javax.swing.JInternalFrame {
             model.addColumn("Doctor");
             model.addColumn("Área");
             model.addColumn("Fecha Cita");
-            model.addColumn("F. Nacimiento");
+            model.addColumn("Hora");
+
             while (rs.next()) {
 
                 Object[] fila = new Object[10]; // 10 columnas
@@ -390,8 +417,100 @@ public class InterGestionarCita extends javax.swing.JInternalFrame {
         }
     }
 
-    private void limpiarCampos() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    private void cargarComboDoctores() {
+        Connection cn = Conexion.conectar();
+        String sql = "SELECT * FROM empleado"; // Puedes ajustar esto según tu modelo de datos
+        Statement st;
+
+        try {
+            st = cn.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            jComboBox_Doctor.removeAllItems();
+            jComboBox_Doctor.addItem("Seleccione clasificacion:");
+            while (rs.next()) {
+                jComboBox_Doctor.addItem(rs.getString("Nombre"));
+            }
+            cn.close();
+        } catch (SQLException e) {
+            System.out.println("¡Error al cargar doctores!");
+        }
+    }
+
+    private void cargarComboServicio() {
+        Connection cn = Conexion.conectar();
+        String sql = "SELECT * FROM clasificacion"; // Puedes ajustar esto según tu modelo de datos
+        Statement st;
+
+        try {
+            st = cn.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            jComboBox_TipoConsulta.removeAllItems();
+            jComboBox_TipoConsulta.addItem("Seleccione clasificacion:");
+            while (rs.next()) {
+                jComboBox_TipoConsulta.addItem(rs.getString("Nombre"));
+            }
+            cn.close();
+        } catch (SQLException e) {
+            System.out.println("¡Error al cargar servicio!");
+        }
+    }
+
+    private void cargarComboArea() {
+        Connection cn = Conexion.conectar();
+        String sql = "SELECT * FROM areaatencion"; // Puedes ajustar esto según tu modelo de datos
+        Statement st;
+
+        try {
+            st = cn.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            jComboBox_Area.removeAllItems();
+            jComboBox_Area.addItem("Seleccione clasificacion:");
+
+            while (rs.next()) {
+                jComboBox_Area.addItem(rs.getString("Nombre"));
+            }
+
+            cn.close();
+
+        } catch (SQLException e) {
+            System.out.println("¡Error al cargar servicio!");
+        }
+    }
+    private void buscarPorCodCita(String CodBuscado) {
+        if (!CodBuscado.isEmpty()) {
+            try {
+                int dni = Integer.parseInt(CodBuscado);
+                Controlador_Cita ctlCita = new Controlador_Cita();
+                Cita cita = ctlCita.buscarPorCodCita(dni);
+
+                if (cita != null) {
+                    txt_nombre.setText(cita.getNombre());
+                    txt_apellido.setText(cita.getApellido());
+                    jDateChooser_fecha_nacimiento.setDate(cita.getFecha_nacimiento());
+                    jDateChooser_fecha_Cita.setDate(cita.getFecha_cita());
+                    txt_dni.setText(String.valueOf(cita.getDni()));
+                    txt_celular.setText(String.valueOf(cita.getCelular()));
+                    jComboBox_sexo.setSelectedItem(cita.getSexo());
+                    jComboBox_TipoConsulta.setSelectedItem(cita.getServicio());
+                    jComboBox_Area.setSelectedItem(cita.getArea());
+                    jComboBox_Doctor.setSelectedItem(cita.getDoctor());
+                    codPaciente = cita.getCodPaciente();
+                } else {
+                    JOptionPane.showMessageDialog(null, "Paciente no encontrado para el DNI ingresado.");
+                }
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null, "Ingrese un número de DNI válido para buscar.");
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Ingrese un número de DNI válido para buscar.");
+        }
+    }
+
+    private void CargarComboSexo() {
+    jComboBox_sexo.removeAllItems();
+        jComboBox_sexo.addItem("Seleccione Género:");
+        jComboBox_sexo.addItem("F");
+        jComboBox_sexo.addItem("M");
     }
 
 }

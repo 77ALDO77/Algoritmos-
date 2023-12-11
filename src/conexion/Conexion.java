@@ -9,7 +9,7 @@ public class Conexion {
     // Conexión local a tu base de datos
     public static Connection conectar() {
         try {
-            String url = "jdbc:mysql://localhost:3306/PrinceDent";
+            String url = "jdbc:mysql://localhost:3306/PrinceDent2";
             String usuario = "root";
             String contraseña = "4546";
             Connection cn = DriverManager.getConnection(url, usuario, contraseña);
