@@ -35,9 +35,9 @@ public class Controlador_FichaMedica {
 
   
 
-    public boolean existeFichaMedica(String dni) {
+    public boolean existeFichaMedica(String DNI) {
         boolean respuesta = false;
-        String sql = "select DNI from FichaMedica where DNI = '" + dni + "';";
+        String sql = "select CodFicha from FichaMedica where CodFicha = '" + DNI + "';";
         Statement st;
         try {
             Connection cn = Conexion.conectar();
